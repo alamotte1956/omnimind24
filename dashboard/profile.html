@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - OMNI-MIND</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>🧠 OMNI-MIND</h1>
+                <p>AI Campaign Platform</p>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-item">
+                    <span class="icon">📊</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="campaigns.html" class="nav-item">
+                    <span class="icon">🎯</span>
+                    <span>Campaigns</span>
+                </a>
+                <a href="create-campaign.html" class="nav-item">
+                    <span class="icon">➕</span>
+                    <span>New Campaign</span>
+                </a>
+                <a href="profile.html" class="nav-item active">
+                    <span class="icon">👤</span>
+                    <span>Profile</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <button id="logoutBtn" class="logout-btn">🚪 Logout</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="profile-container">
+                <!-- Profile Header -->
+                <div class="profile-header">
+                    <div class="profile-avatar" id="profileAvatar">👤</div>
+                    <h2 class="profile-name" id="profileName">Loading...</h2>
+                    <p class="profile-email" id="profileEmail">Loading...</p>
+                    <p style="color: var(--gray-500); font-size: 0.875rem; margin-top: var(--spacing-sm);">
+                        Member since <span id="memberSince">Loading...</span>
+                    </p>
+                </div>
+
+                <!-- Account Information -->
+                <div class="form-section">
+                    <h3>👤 Account Information</h3>
+                    
+                    <div class="form-group">
+                        <label>User ID</label>
+                        <input type="text" id="userId" disabled style="background: var(--gray-100); color: var(--gray-600);">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="userName" disabled style="background: var(--gray-100); color: var(--gray-600);">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="userEmail" disabled style="background: var(--gray-100); color: var(--gray-600);">
+                    </div>
+
+                    <p style="color: var(--gray-600); font-size: 0.875rem; margin-top: var(--spacing-lg);">
+                        💡 Profile editing is currently view-only. Contact support to update your information.
+                    </p>
+                </div>
+
+                <!-- Account Statistics -->
+                <div class="form-section">
+                    <h3>📊 Account Statistics</h3>
+                    
+                    <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+                        <div class="stat-card">
+                            <div class="stat-icon">🎯</div>
+                            <div class="stat-content">
+                                <h3 id="statTotalCampaigns">0</h3>
+                                <p>Total Campaigns</p>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">✅</div>
+                            <div class="stat-content">
+                                <h3 id="statCompletedCampaigns">0</h3>
+                                <p>Completed</p>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">📦</div>
+                            <div class="stat-content">
+                                <h3 id="statTotalAssets">0</h3>
+                                <p>Total Assets</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Platform Information -->
+                <div class="form-section">
+                    <h3>ℹ️ Platform Information</h3>
+                    
+                    <div style="background: var(--gray-50); padding: var(--spacing-lg); border-radius: var(--radius-md); line-height: 1.8;">
+                        <p style="margin-bottom: var(--spacing-md);"><strong>OMNI-MIND AI Marketing Platform</strong></p>
+                        <p style="color: var(--gray-700); font-size: 0.875rem;">
+                            Backend API: <a href="https://omnimind-production.up.railway.app" target="_blank" style="color: var(--primary);">https://omnimind-production.up.railway.app</a><br>
+                            Version: 1.0.3<br>
+                            Last Updated: November 2024
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Danger Zone -->
+                <div class="form-section" style="border: 2px solid var(--error);">
+                    <h3 style="color: var(--error);">⚠️ Danger Zone</h3>
+                    
+                    <p style="color: var(--gray-700); margin-bottom: var(--spacing-lg);">
+                        Once you logout, you'll need to sign in again to access your campaigns.
+                    </p>
+
+                    <button id="logoutBtnProfile" class="btn" style="background: var(--error); color: white;">
+                        🚪 Logout from Account
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        // ========================================
+        // Profile Page Logic
+        // ========================================
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check authentication
+            if (!requireAuth()) return;
+
+            // Load profile data
+            loadProfileData();
+
+            // Load statistics
+            loadProfileStats();
+
+            // Profile logout button
+            const logoutBtnProfile = document.getElementById('logoutBtnProfile');
+            if (logoutBtnProfile) {
+                logoutBtnProfile.addEventListener('click', () => {
+                    if (confirm('Are you sure you want to logout?')) {
+                        TokenManager.logout();
+                    }
+                });
+            }
+        });
+
+        function loadProfileData() {
+            const user = TokenManager.getUser();
+            
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Update profile header
+            document.getElementById('profileName').textContent = user.name;
+            document.getElementById('profileEmail').textContent = user.email;
+            
+            // Set avatar initial
+            const avatar = document.getElementById('profileAvatar');
+            if (avatar && user.name) {
+                avatar.textContent = user.name.charAt(0).toUpperCase();
+            }
+
+            // Member since
+            if (user.created_at) {
+                const memberSince = document.getElementById('memberSince');
+                const date = new Date(user.created_at);
+                memberSince.textContent = date.toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+            }
+
+            // Fill form fields
+            document.getElementById('userId').value = user.id || 'N/A';
+            document.getElementById('userName').value = user.name || '';
+            document.getElementById('userEmail').value = user.email || '';
+        }
+
+        async function loadProfileStats() {
+            try {
+                // Fetch campaigns
+                const response = await ApiClient.get(API_CONFIG.ENDPOINTS.CAMPAIGNS);
+                const campaigns = response.campaigns || [];
+
+                // Calculate stats
+                const total = campaigns.length;
+                const completed = campaigns.filter(c => c.status === 'completed').length;
+                const totalAssets = campaigns.reduce((sum, c) => sum + (c.assets_count || 0), 0);
+
+                // Update UI
+                document.getElementById('statTotalCampaigns').textContent = total;
+                document.getElementById('statCompletedCampaigns').textContent = completed;
+                document.getElementById('statTotalAssets').textContent = totalAssets;
+
+            } catch (error) {
+                console.error('Failed to load profile stats:', error);
+            }
+        }
+    </script>
+</body>
+</html>

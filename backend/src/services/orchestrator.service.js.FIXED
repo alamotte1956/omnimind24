@@ -1,0 +1,53 @@
+// FIXED VERSION with extensive debugging and auto-stringify
+
+async saveAsset(campaignId, type, content, metadata) {
+  try {
+    // 🔍 EXTENSIVE DEBUGGING
+    console.log('==================== SAVE ASSET DEBUG ====================');
+    console.log('Type:', type);
+    console.log('Content type:', typeof content);
+    console.log('Content is array?', Array.isArray(content));
+    console.log('Content is object?', content !== null && typeof content === 'object');
+    console.log('Content preview:', JSON.stringify(content).substring(0, 200));
+    console.log('=========================================================');
+
+    // Convert objects/arrays to JSON strings automatically
+    let contentString = content;
+    
+    if (content !== null && content !== undefined) {
+      if (typeof content === 'object') {
+        console.log('⚠️ Content is an object - auto-stringifying');
+        contentString = JSON.stringify(content, null, 2);
+      } else if (typeof content !== 'string') {
+        console.log('⚠️ Content is not a string - converting to string');
+        contentString = String(content);
+      }
+    }
+
+    console.log('Final content type:', typeof contentString);
+    console.log('Final content length:', contentString ? contentString.length : 0);
+
+    const asset = await Asset.create({
+      campaign_id: campaignId,
+      type: type,
+      content: contentString,  // Now always a string or null
+      file_url: metadata.fileUrl || null,
+      file_size: metadata.fileSize || null,
+      mime_type: metadata.mimeType || null,
+      metadata: metadata,
+      ai_tool: metadata.tool || null,
+      generation_time_seconds: metadata.generationTime || null,
+      tokens_used: metadata.tokensUsed || null,
+      cost_usd: metadata.costUsd || null
+    });
+
+    logger.info(`💾 Asset saved: ${type} (${metadata.tool})`);
+    return asset;
+  } catch (error) {
+    console.error('❌ SAVE ASSET ERROR:', error.message);
+    console.error('Error name:', error.name);
+    console.error('Full error:', error);
+    logger.error('Failed to save asset:', error);
+    throw error;
+  }
+}

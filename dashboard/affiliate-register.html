@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Affiliate Program - OMNI-MIND</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .affiliate-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .hero-section {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            border-radius: 12px;
+            margin-bottom: 40px;
+        }
+
+        .hero-title {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .hero-subtitle {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .hero-description {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .tiers-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .tier-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .tier-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .tier-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #1a1a1a;
+        }
+
+        .tier-commission {
+            font-size: 32px;
+            font-weight: 700;
+            color: #6366f1;
+            margin-bottom: 10px;
+        }
+
+        .tier-requirement {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .form-section {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .form-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #1a1a1a;
+        }
+
+        .form-description {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d0d0d0;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-hint {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        .section-divider {
+            border: 0;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #e0e0e0, transparent);
+            margin: 30px 0;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+        }
+
+        .terms-box {
+            padding: 20px;
+            background: #f9fafb;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: start;
+            gap: 10px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-top: 4px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .success-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .success-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #10b981;
+            margin-bottom: 10px;
+        }
+
+        .success-text {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .benefits-list {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .benefits-list li {
+            padding: 12px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .benefits-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: 700;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="affiliate-container">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <h1 class="hero-title">🤝 Join Our Affiliate Program</h1>
+            <p class="hero-subtitle">Earn 30-45% Commission</p>
+            <p class="hero-description">
+                Promote OMNI-MIND and earn recurring commissions on every sale
+            </p>
+        </div>
+
+        <!-- Commission Tiers -->
+        <div class="tiers-section">
+            <div class="tier-card">
+                <div class="tier-icon">🥉</div>
+                <div class="tier-name">Bronze</div>
+                <div class="tier-commission">30%</div>
+                <div class="tier-requirement">$0 - $500/month</div>
+            </div>
+            <div class="tier-card">
+                <div class="tier-icon">🥈</div>
+                <div class="tier-name">Silver</div>
+                <div class="tier-commission">35%</div>
+                <div class="tier-requirement">$500 - $2K/month</div>
+            </div>
+            <div class="tier-card">
+                <div class="tier-icon">🥇</div>
+                <div class="tier-name">Gold</div>
+                <div class="tier-commission">40%</div>
+                <div class="tier-requirement">$2K - $5K/month</div>
+            </div>
+            <div class="tier-card">
+                <div class="tier-icon">💎</div>
+                <div class="tier-name">Platinum</div>
+                <div class="tier-commission">45%</div>
+                <div class="tier-requirement">$5K+/month</div>
+            </div>
+        </div>
+
+        <!-- Application Form -->
+        <div class="form-section" id="applicationForm">
+            <h2 class="form-title">Affiliate Application</h2>
+            <p class="form-description">
+                Fill out the form below to apply for our affiliate program. We typically review applications within 24-48 hours.
+            </p>
+
+            <form id="affiliateForm" onsubmit="submitApplication(event)">
+                <!-- Personal Information -->
+                <h3 class="section-title">Personal Information</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Full Name *</label>
+                        <input type="text" class="form-input" name="full_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email Address *</label>
+                        <input type="email" class="form-input" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Phone Number</label>
+                        <input type="tel" class="form-input" name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Country *</label>
+                        <select class="form-select" name="country" required>
+                            <option value="">Select Country</option>
+                            <option value="US">United States</option>
+                            <option value="CA">Canada</option>
+                            <option value="GB">United Kingdom</option>
+                            <option value="AU">Australia</option>
+                            <option value="DE">Germany</option>
+                            <option value="FR">France</option>
+                            <option value="ES">Spain</option>
+                            <option value="IT">Italy</option>
+                            <option value="JP">Japan</option>
+                            <option value="OTHER">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <hr class="section-divider">
+
+                <!-- Marketing Information -->
+                <h3 class="section-title">Marketing Information</h3>
+                <div class="form-group full-width">
+                    <label class="form-label">Website URL *</label>
+                    <input type="url" class="form-input" name="website_url" required placeholder="https://">
+                    <small class="form-hint">Where will you promote OMNI-MIND?</small>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Primary Traffic Source *</label>
+                        <select class="form-select" name="traffic_source" required>
+                            <option value="">Select Source</option>
+                            <option value="blog">Blog/Content Site</option>
+                            <option value="youtube">YouTube</option>
+                            <option value="social">Social Media</option>
+                            <option value="email">Email List</option>
+                            <option value="paid">Paid Advertising</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Monthly Visitors/Subscribers</label>
+                        <select class="form-select" name="audience_size">
+                            <option value="0-1000">0 - 1,000</option>
+                            <option value="1000-5000">1,000 - 5,000</option>
+                            <option value="5000-10000">5,000 - 10,000</option>
+                            <option value="10000-50000">10,000 - 50,000</option>
+                            <option value="50000+">50,000+</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Social Media Profile (Optional)</label>
+                        <input type="url" class="form-input" name="social_profile" placeholder="https://">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">YouTube Channel (Optional)</label>
+                        <input type="url" class="form-input" name="youtube_channel" placeholder="https://">
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label class="form-label">Marketing Strategy *</label>
+                    <textarea class="form-textarea" name="marketing_strategy" required placeholder="Describe how you plan to promote OMNI-MIND to your audience..."></textarea>
+                    <small class="form-hint">Tell us about your promotional strategy and why you'd be a good fit</small>
+                </div>
+
+                <hr class="section-divider">
+
+                <!-- Payment Information -->
+                <h3 class="section-title">Payment Information</h3>
+                <div class="form-group">
+                    <label class="form-label">Preferred Payout Method *</label>
+                    <select class="form-select" name="payout_method" required id="payoutMethod" onchange="updatePayoutFields()">
+                        <option value="">Select Method</option>
+                        <option value="paypal">PayPal</option>
+                        <option value="bank_transfer">Bank Transfer</option>
+                        <option value="stripe">Stripe Transfer</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="paypalField" style="display: none;">
+                    <label class="form-label">PayPal Email *</label>
+                    <input type="email" class="form-input" name="paypal_email">
+                </div>
+
+                <div id="bankFields" style="display: none;">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Bank Name *</label>
+                            <input type="text" class="form-input" name="bank_name">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Account Holder Name *</label>
+                            <input type="text" class="form-input" name="account_holder">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Account Number *</label>
+                            <input type="text" class="form-input" name="account_number">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Routing/SWIFT Code *</label>
+                            <input type="text" class="form-input" name="routing_code">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" id="stripeField" style="display: none;">
+                    <label class="form-label">Stripe Email *</label>
+                    <input type="email" class="form-input" name="stripe_email">
+                    <small class="form-hint">We'll send you a Stripe Connect invitation to this email</small>
+                </div>
+
+                <hr class="section-divider">
+
+                <!-- Benefits -->
+                <h3 class="section-title">What You Get</h3>
+                <ul class="benefits-list">
+                    <li>30-45% recurring commission on all sales</li>
+                    <li>90-day cookie tracking for all referrals</li>
+                    <li>Real-time dashboard with detailed analytics</li>
+                    <li>Monthly automated payouts (minimum $50)</li>
+                    <li>Professional marketing materials and assets</li>
+                    <li>Dedicated affiliate support</li>
+                    <li>Performance bonuses for top affiliates</li>
+                </ul>
+
+                <!-- Terms -->
+                <div class="terms-box">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="agreeTerms" required>
+                        <label for="agreeTerms">
+                            I agree to the <a href="#" target="_blank" style="color: #6366f1;">Affiliate Terms and Conditions</a> 
+                            and confirm that I will promote OMNI-MIND ethically and in compliance with all applicable laws.
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    Submit Application
+                </button>
+            </form>
+        </div>
+
+        <!-- Success Message -->
+        <div class="form-section success-message" id="successMessage">
+            <div class="success-icon">🎉</div>
+            <h2 class="success-title">Application Submitted!</h2>
+            <p class="success-text">
+                Thank you for applying to our affiliate program. We'll review your application and get back to you within 24-48 hours at <strong id="submittedEmail"></strong>.
+            </p>
+            <button class="submit-btn" onclick="window.location.href='index.html'" style="max-width: 300px; margin: 0 auto;">
+                Return to Dashboard
+            </button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        function updatePayoutFields() {
+            const method = document.getElementById('payoutMethod').value;
+            
+            // Hide all payment fields
+            document.getElementById('paypalField').style.display = 'none';
+            document.getElementById('bankFields').style.display = 'none';
+            document.getElementById('stripeField').style.display = 'none';
+            
+            // Show relevant field
+            if (method === 'paypal') {
+                document.getElementById('paypalField').style.display = 'block';
+                document.querySelector('[name="paypal_email"]').required = true;
+            } else if (method === 'bank_transfer') {
+                document.getElementById('bankFields').style.display = 'block';
+                document.querySelector('[name="bank_name"]').required = true;
+                document.querySelector('[name="account_holder"]').required = true;
+                document.querySelector('[name="account_number"]').required = true;
+                document.querySelector('[name="routing_code"]').required = true;
+            } else if (method === 'stripe') {
+                document.getElementById('stripeField').style.display = 'block';
+                document.querySelector('[name="stripe_email"]').required = true;
+            }
+        }
+
+        async function submitApplication(event) {
+            event.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+            
+            try {
+                const formData = new FormData(event.target);
+                const data = Object.fromEntries(formData);
+                
+                // Prepare payout details based on method
+                let payoutDetails = {};
+                if (data.payout_method === 'paypal') {
+                    payoutDetails = { paypal_email: data.paypal_email };
+                } else if (data.payout_method === 'bank_transfer') {
+                    payoutDetails = {
+                        bank_name: data.bank_name,
+                        account_holder: data.account_holder,
+                        account_number: data.account_number,
+                        routing_code: data.routing_code
+                    };
+                } else if (data.payout_method === 'stripe') {
+                    payoutDetails = { stripe_email: data.stripe_email };
+                }
+                
+                const applicationData = {
+                    full_name: data.full_name,
+                    email: data.email,
+                    phone: data.phone,
+                    country: data.country,
+                    website_url: data.website_url,
+                    traffic_source: data.traffic_source,
+                    audience_size: data.audience_size,
+                    social_profile: data.social_profile,
+                    youtube_channel: data.youtube_channel,
+                    marketing_strategy: data.marketing_strategy,
+                    payout_method: data.payout_method,
+                    payout_details: payoutDetails
+                };
+                
+                const response = await ApiClient.post('/api/affiliates/apply', applicationData);
+                
+                // Show success message
+                document.getElementById('submittedEmail').textContent = data.email;
+                document.getElementById('applicationForm').style.display = 'none';
+                document.getElementById('successMessage').style.display = 'block';
+                
+            } catch (error) {
+                console.error('Application error:', error);
+                alert(error.message || 'Failed to submit application. Please try again.');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Application';
+            }
+        }
+
+        // Initialize - Check if user is logged in
+        if (!requireAuth()) {
+            window.location.href = 'login.html?redirect=affiliate-register.html';
+        }
+    </script>
+</body>
+</html>

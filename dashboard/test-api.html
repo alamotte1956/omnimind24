@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test - OMNI-MIND</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 1.875rem;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+        
+        .test-section {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.5rem;
+        }
+        
+        h2 {
+            font-size: 1.25rem;
+            color: #374151;
+            margin-bottom: 1rem;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-right: 0.5rem;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .result {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f9fafb;
+            border-radius: 0.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+        
+        .success {
+            border-left: 4px solid #10b981;
+            background: #d1fae5;
+        }
+        
+        .error {
+            border-left: 4px solid #ef4444;
+            background: #fee2e2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 API Connection Test</h1>
+        <p style="color: #6b7280; margin-bottom: 2rem;">Test the connection to your OMNI-MIND backend</p>
+
+        <!-- Backend Health Check -->
+        <div class="test-section">
+            <h2>1. Backend Health Check</h2>
+            <p style="color: #6b7280; margin-bottom: 1rem;">Test if the backend is running</p>
+            <button class="btn" onclick="testHealth()">Test Health</button>
+            <div id="healthResult" class="result" style="display: none;"></div>
+        </div>
+
+        <!-- Test Registration -->
+        <div class="test-section">
+            <h2>2. Test Registration</h2>
+            <p style="color: #6b7280; margin-bottom: 1rem;">Register a test user</p>
+            <button class="btn" onclick="testRegister()">Test Register</button>
+            <div id="registerResult" class="result" style="display: none;"></div>
+        </div>
+
+        <!-- Test Login -->
+        <div class="test-section">
+            <h2>3. Test Login</h2>
+            <p style="color: #6b7280; margin-bottom: 1rem;">Login with test credentials</p>
+            <button class="btn" onclick="testLogin()">Test Login</button>
+            <div id="loginResult" class="result" style="display: none;"></div>
+        </div>
+
+        <!-- Test Campaigns -->
+        <div class="test-section">
+            <h2>4. Test Get Campaigns</h2>
+            <p style="color: #6b7280; margin-bottom: 1rem;">Fetch user campaigns (requires login first)</p>
+            <button class="btn" onclick="testCampaigns()">Test Campaigns</button>
+            <div id="campaignsResult" class="result" style="display: none;"></div>
+        </div>
+
+        <!-- Clear All Tests -->
+        <div style="text-align: center; margin-top: 2rem;">
+            <button class="btn" onclick="clearResults()">Clear All Results</button>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'https://omnimind-production.up.railway.app';
+        let testToken = null;
+
+        function showResult(elementId, content, isSuccess) {
+            const el = document.getElementById(elementId);
+            el.style.display = 'block';
+            el.className = 'result ' + (isSuccess ? 'success' : 'error');
+            el.textContent = content;
+        }
+
+        async function testHealth() {
+            try {
+                const response = await fetch(`${API_URL}/api/health`);
+                const data = await response.json();
+                
+                const result = `✅ SUCCESS\nStatus: ${response.status}\nResponse:\n${JSON.stringify(data, null, 2)}`;
+                showResult('healthResult', result, true);
+            } catch (error) {
+                showResult('healthResult', `❌ ERROR\n${error.message}`, false);
+            }
+        }
+
+        async function testRegister() {
+            try {
+                const randomNum = Math.floor(Math.random() * 10000);
+                const testUser = {
+                    name: 'Test User',
+                    email: `test${randomNum}@example.com`,
+                    password: 'test123456'
+                };
+
+                const response = await fetch(`${API_URL}/api/auth/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(testUser)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    testToken = data.token;
+                    const result = `✅ SUCCESS\nStatus: ${response.status}\nEmail: ${testUser.email}\nToken received: ${testToken ? 'Yes' : 'No'}\n\nFull Response:\n${JSON.stringify(data, null, 2)}`;
+                    showResult('registerResult', result, true);
+                } else {
+                    const result = `❌ FAILED\nStatus: ${response.status}\nError: ${data.error || data.message || 'Unknown error'}\n\nFull Response:\n${JSON.stringify(data, null, 2)}`;
+                    showResult('registerResult', result, false);
+                }
+            } catch (error) {
+                showResult('registerResult', `❌ ERROR\n${error.message}\n\nStack:\n${error.stack}`, false);
+            }
+        }
+
+        async function testLogin() {
+            try {
+                const credentials = {
+                    email: 'test@example.com',
+                    password: 'test123456'
+                };
+
+                const response = await fetch(`${API_URL}/api/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(credentials)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    testToken = data.token;
+                    const result = `✅ SUCCESS\nStatus: ${response.status}\nToken received: ${testToken ? 'Yes' : 'No'}\n\nUser Info:\n${JSON.stringify(data.user, null, 2)}\n\nToken: ${testToken.substring(0, 50)}...`;
+                    showResult('loginResult', result, true);
+                } else {
+                    const result = `❌ FAILED\nStatus: ${response.status}\nError: ${data.error || data.message || 'Unknown error'}\n\nFull Response:\n${JSON.stringify(data, null, 2)}`;
+                    showResult('loginResult', result, false);
+                }
+            } catch (error) {
+                showResult('loginResult', `❌ ERROR\n${error.message}\n\nStack:\n${error.stack}`, false);
+            }
+        }
+
+        async function testCampaigns() {
+            if (!testToken) {
+                showResult('campaignsResult', '⚠️  Please login or register first to get a token', false);
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/api/campaigns`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${testToken}`
+                    }
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    const result = `✅ SUCCESS\nStatus: ${response.status}\nCampaigns found: ${data.campaigns ? data.campaigns.length : 0}\n\nFull Response:\n${JSON.stringify(data, null, 2)}`;
+                    showResult('campaignsResult', result, true);
+                } else {
+                    const result = `❌ FAILED\nStatus: ${response.status}\nError: ${data.error || data.message || 'Unknown error'}\n\nFull Response:\n${JSON.stringify(data, null, 2)}`;
+                    showResult('campaignsResult', result, false);
+                }
+            } catch (error) {
+                showResult('campaignsResult', `❌ ERROR\n${error.message}\n\nStack:\n${error.stack}`, false);
+            }
+        }
+
+        function clearResults() {
+            ['healthResult', 'registerResult', 'loginResult', 'campaignsResult'].forEach(id => {
+                const el = document.getElementById(id);
+                el.style.display = 'none';
+                el.textContent = '';
+            });
+        }
+
+        // Auto-test health on page load
+        window.addEventListener('load', () => {
+            console.log('API Test page loaded. Backend URL:', API_URL);
+        });
+    </script>
+</body>
+</html>

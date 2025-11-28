@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing - OmniMind24</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gold: #D4AF37;
+            --black: #000000;
+            --dark-gray: #111111;
+            --white: #ffffff;
+            --gradient-gold: linear-gradient(135deg, #D4AF37 0%, #FFD700 100%);
+            --gradient-hero: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--black);
+            color: var(--white);
+            line-height: 1.8;
+        }
+
+        .header {
+            background: var(--dark-gray);
+            border-bottom: 2px solid var(--primary-gold);
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--primary-gold);
+            text-decoration: none;
+        }
+
+        .back-link {
+            color: var(--primary-gold);
+            text-decoration: none;
+            font-weight: 600;
+            transition: opacity 0.3s;
+        }
+
+        .back-link:hover {
+            opacity: 0.8;
+        }
+
+        .hero-section {
+            background: var(--gradient-hero);
+            padding: 4rem 2rem 3rem;
+            text-align: center;
+            border-bottom: 2px solid var(--primary-gold);
+        }
+
+        .hero-section h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-section .tagline {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-section .subtitle {
+            font-size: 1.1rem;
+            color: var(--primary-gold);
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .welcome-banner {
+            background: var(--gradient-gold);
+            color: var(--black);
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.4);
+        }
+
+        .welcome-banner h2 {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-banner p {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .pricing-card {
+            background: var(--dark-gray);
+            border: 2px solid var(--primary-gold);
+            border-radius: 16px;
+            padding: 2.5rem;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.3);
+        }
+
+        .pricing-card.popular {
+            border-width: 3px;
+            border-color: #FFD700;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gradient-gold);
+            color: var(--black);
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--white);
+            margin-bottom: 0.5rem;
+        }
+
+        .price span {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .credits {
+            font-size: 1.3rem;
+            color: var(--primary-gold);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .value-badge {
+            background: rgba(212, 175, 55, 0.2);
+            border: 1px solid var(--primary-gold);
+            color: var(--primary-gold);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+        }
+
+        .features-list {
+            text-align: left;
+            margin: 2rem 0;
+        }
+
+        .features-list li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            color: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .features-list li:last-child {
+            border-bottom: none;
+        }
+
+        .features-list li i {
+            color: var(--primary-gold);
+            font-size: 1.1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient-gold);
+            color: var(--black);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .btn-outline {
+            border: 2px solid var(--primary-gold);
+            color: var(--primary-gold);
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-gold);
+            color: var(--black);
+        }
+
+        .comparison-section {
+            margin: 4rem 0;
+            background: var(--dark-gray);
+            border: 2px solid var(--primary-gold);
+            border-radius: 16px;
+            padding: 3rem;
+        }
+
+        .comparison-section h2 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 2rem;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+        }
+
+        .comparison-table th {
+            background: var(--primary-gold);
+            color: var(--black);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 700;
+        }
+
+        .comparison-table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .comparison-table tr:hover {
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        .savings-highlight {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+            padding: 0.25rem 0.75rem;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .faq-section {
+            margin: 4rem 0;
+        }
+
+        .faq-section h2 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .faq-item {
+            background: var(--dark-gray);
+            border: 2px solid var(--primary-gold);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .faq-item h3 {
+            font-size: 1.3rem;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .faq-item p {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.8;
+        }
+
+        .cta-section {
+            background: var(--gradient-hero);
+            border: 2px solid var(--primary-gold);
+            border-radius: 16px;
+            padding: 3rem;
+            text-align: center;
+            margin: 4rem 0;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section h2 span {
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-section {
+                padding: 2rem;
+            }
+
+            .comparison-table {
+                font-size: 0.9rem;
+            }
+
+            .comparison-table th,
+            .comparison-table td {
+                padding: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="logo">OmniMind24</a>
+            <a href="index.html" class="back-link">← Back to Home</a>
+        </div>
+    </header>
+
+    <section class="hero-section">
+        <h1>Simple, Transparent Pricing</h1>
+        <p class="tagline">Pay only for what you use. No subscriptions, no hidden fees.</p>
+        <p class="subtitle">15% below industry average • Credits never expire</p>
+    </section>
+
+    <div class="container">
+        <div class="welcome-banner">
+            <h2>🎉 New Users Get $50 Free Credits!</h2>
+            <p>Start building AI campaigns immediately — no credit card required</p>
+        </div>
+
+        <div class="pricing-grid">
+            <!-- Starter Pack -->
+            <div class="pricing-card">
+                <h3>Starter</h3>
+                <div class="price">$25</div>
+                <div class="credits">50 Credits</div>
+                <div class="value-badge">$0.50 per credit</div>
+                <ul class="features-list">
+                    <li><i class="fas fa-check-circle"></i> Access to 15 AI services</li>
+                    <li><i class="fas fa-check-circle"></i> Automatic tool selection</li>
+                    <li><i class="fas fa-check-circle"></i> 5-10 campaign outputs</li>
+                    <li><i class="fas fa-check-circle"></i> Standard processing speed</li>
+                    <li><i class="fas fa-check-circle"></i> Email support</li>
+                    <li><i class="fas fa-check-circle"></i> Credits never expire</li>
+                </ul>
+                <a href="welcome.html" class="btn btn-outline">Get Started</a>
+            </div>
+
+            <!-- Professional Pack - POPULAR -->
+            <div class="pricing-card popular">
+                <div class="popular-badge">⭐ MOST POPULAR</div>
+                <h3>Professional</h3>
+                <div class="price">$85</div>
+                <div class="credits">200 Credits</div>
+                <div class="value-badge">$0.425 per credit • Save 15%</div>
+                <ul class="features-list">
+                    <li><i class="fas fa-check-circle"></i> Everything in Starter</li>
+                    <li><i class="fas fa-check-circle"></i> 20-40 campaign outputs</li>
+                    <li><i class="fas fa-check-circle"></i> Priority processing</li>
+                    <li><i class="fas fa-check-circle"></i> Advanced AI models</li>
+                    <li><i class="fas fa-check-circle"></i> Priority support</li>
+                    <li><i class="fas fa-check-circle"></i> Campaign templates</li>
+                </ul>
+                <a href="welcome.html" class="btn btn-primary">Get Started</a>
+            </div>
+
+            <!-- Business Pack -->
+            <div class="pricing-card">
+                <h3>Business</h3>
+                <div class="price">$170</div>
+                <div class="credits">500 Credits</div>
+                <div class="value-badge">$0.34 per credit • Save 32%</div>
+                <ul class="features-list">
+                    <li><i class="fas fa-check-circle"></i> Everything in Professional</li>
+                    <li><i class="fas fa-check-circle"></i> 50-100 campaign outputs</li>
+                    <li><i class="fas fa-check-circle"></i> Fastest processing</li>
+                    <li><i class="fas fa-check-circle"></i> Premium AI models</li>
+                    <li><i class="fas fa-check-circle"></i> Dedicated account manager</li>
+                    <li><i class="fas fa-check-circle"></i> Custom integrations</li>
+                </ul>
+                <a href="welcome.html" class="btn btn-outline">Get Started</a>
+            </div>
+
+            <!-- Enterprise Pack -->
+            <div class="pricing-card">
+                <h3>Enterprise</h3>
+                <div class="price">$340</div>
+                <div class="credits">1,200 Credits</div>
+                <div class="value-badge">$0.283 per credit • Save 43%</div>
+                <ul class="features-list">
+                    <li><i class="fas fa-check-circle"></i> Everything in Business</li>
+                    <li><i class="fas fa-check-circle"></i> 120-240 campaign outputs</li>
+                    <li><i class="fas fa-check-circle"></i> White-label options</li>
+                    <li><i class="fas fa-check-circle"></i> API access</li>
+                    <li><i class="fas fa-check-circle"></i> Team collaboration</li>
+                    <li><i class="fas fa-check-circle"></i> Custom SLA</li>
+                </ul>
+                <a href="welcome.html" class="btn btn-outline">Get Started</a>
+            </div>
+        </div>
+
+        <div class="comparison-section">
+            <h2>Why OmniMind24 Saves You Money</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>Typical Market Price</th>
+                        <th>OmniMind24 Price</th>
+                        <th>Your Savings</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>50 Credits</strong></td>
+                        <td>$29.99</td>
+                        <td><strong>$25.00</strong></td>
+                        <td><span class="savings-highlight">Save $5 (17%)</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>200 Credits</strong></td>
+                        <td>$99.99</td>
+                        <td><strong>$85.00</strong></td>
+                        <td><span class="savings-highlight">Save $15 (15%)</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>500 Credits</strong></td>
+                        <td>$199.99</td>
+                        <td><strong>$170.00</strong></td>
+                        <td><span class="savings-highlight">Save $30 (15%)</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>1,200 Credits</strong></td>
+                        <td>$399.99</td>
+                        <td><strong>$340.00</strong></td>
+                        <td><span class="savings-highlight">Save $60 (15%)</span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p style="text-align: center; margin-top: 2rem; font-size: 1.2rem; color: var(--primary-gold); font-weight: 600;">
+                💰 Average customer saves <strong>$5,000+ per year</strong> vs. paying for multiple AI subscriptions
+            </p>
+        </div>
+
+        <div class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+
+            <div class="faq-item">
+                <h3>How do credits work?</h3>
+                <p>Each AI campaign consumes credits based on complexity. Simple text generation uses 3-5 credits, while image or video creation uses 8-15 credits. You only pay for what you use, and credits never expire.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Do credits expire?</h3>
+                <p>No! Your credits never expire. Buy once, use anytime. This is different from most competitors who force monthly subscriptions with "use it or lose it" policies.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Can I upgrade or buy more credits anytime?</h3>
+                <p>Absolutely! You can purchase additional credits whenever you need them. There's no subscription commitment — just buy credits as you go.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>What AI services are included?</h3>
+                <p>You get access to 15+ premium AI services including GPT-4, Claude, Gemini 2.5, DALL-E, Midjourney, Flux Models, Runway, Kling Video, ElevenLabs, and more. OmniMind24 automatically selects the best tool for each task.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>How much do I save vs. buying subscriptions separately?</h3>
+                <p>Enormous savings! If you subscribed to ChatGPT Plus ($20), Midjourney ($30), Claude Pro ($20), and other tools separately, you'd pay $100-300/month. With OmniMind24, you pay only for what you use and save 15% below market rates.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Is there a free trial?</h3>
+                <p>Yes! New users get $50 in free credits (equivalent to 100-118 credits depending on tier value). No credit card required to start. That's enough to create 10-15 AI campaigns and see the power of OmniMind24.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>What payment methods do you accept?</h3>
+                <p>We accept all major credit cards (Visa, Mastercard, American Express, Discover) processed securely through Stripe. Your payment information is encrypted and never stored on our servers.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Can I get a refund?</h3>
+                <p>We offer a 30-day satisfaction guarantee. If you're not happy with OmniMind24, contact us within 30 days of your purchase for a full refund of unused credits.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Is there a discount for annual purchases?</h3>
+                <p>Since our pricing is already credit-based (not subscription), we don't have annual plans. However, larger credit packages offer better per-credit rates — up to 43% savings on the Enterprise pack!</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Do you offer enterprise or team plans?</h3>
+                <p>Yes! For teams of 5+ or custom needs over 1,200 credits/month, contact our sales team for volume discounts, dedicated support, API access, and custom SLAs.</p>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <h2>Ready to Get <span>Amazing Results</span>?</h2>
+            <p>Start with $50 in free credits. No credit card required.</p>
+            <a href="welcome.html" class="btn btn-primary" style="width: auto; padding: 1.25rem 3rem;">Claim Your Free Credits</a>
+        </div>
+    </div>
+
+    <footer style="background: var(--dark-gray); padding: 2rem; text-align: center; border-top: 2px solid var(--primary-gold); margin-top: 3rem;">
+        <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 0.5rem;">Questions? Contact us at <a href="mailto:support@omnimind24.com" style="color: var(--primary-gold); text-decoration: none; font-weight: 600;">support@omnimind24.com</a></p>
+        <p style="color: rgba(255, 255, 255, 0.8);">&copy; 2025 A.I. Help Pros LLP. All rights reserved.</p>
+        <p style="color: var(--primary-gold); font-weight: 600; margin-top: 0.5rem;">Intelligence Means Business</p>
+    </footer>
+</body>
+</html>

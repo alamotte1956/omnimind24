@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Checkout - OMNI-MIND</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        .checkout-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 968px) {
+            .checkout-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .product-section, .payment-section, .order-summary {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .product-card {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .product-card.selected {
+            border-color: #6366f1;
+            background: #f0f0ff;
+        }
+
+        .product-icon {
+            font-size: 48px;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .product-info {
+            flex: 1;
+        }
+
+        .product-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 5px;
+        }
+
+        .product-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .product-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .feature-tag {
+            padding: 4px 10px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #555;
+        }
+
+        .product-price {
+            font-size: 24px;
+            font-weight: 700;
+            color: #6366f1;
+            text-align: right;
+        }
+
+        .order-summary {
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+        }
+
+        .summary-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .summary-row.total {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a1a;
+            border-bottom: none;
+            padding-top: 20px;
+        }
+
+        .coupon-input {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .coupon-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #d0d0d0;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .coupon-btn {
+            padding: 10px 20px;
+            background: #6366f1;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .coupon-btn:hover {
+            background: #4f46e5;
+        }
+
+        .discount-applied {
+            color: #10b981;
+            font-size: 14px;
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+
+        #card-element {
+            padding: 15px;
+            border: 1px solid #d0d0d0;
+            border-radius: 6px;
+            background: white;
+            margin: 15px 0;
+        }
+
+        #card-errors {
+            color: #dc2626;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .payment-method-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .payment-method {
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .payment-method:hover {
+            border-color: #6366f1;
+        }
+
+        .payment-method.selected {
+            border-color: #6366f1;
+            background: #f0f0ff;
+        }
+
+        .payment-method-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .payment-method-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 16px;
+            background: #6366f1;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 20px;
+        }
+
+        .checkout-btn:hover {
+            background: #4f46e5;
+        }
+
+        .checkout-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .security-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+            padding: 12px;
+            background: #f0fdf4;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #166534;
+        }
+
+        .spinner {
+            display: none;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #6366f1;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading .spinner {
+            display: inline-block;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+        }
+
+        .page-subtitle {
+            font-size: 16px;
+            color: #666;
+        }
+
+        .affiliate-notice {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            border-radius: 6px;
+        }
+
+        .affiliate-notice-title {
+            font-weight: 600;
+            color: #92400e;
+            margin-bottom: 5px;
+        }
+
+        .affiliate-notice-text {
+            font-size: 14px;
+            color: #78350f;
+        }
+    </style>
+</head>
+<body>
+    <div class="checkout-container">
+        <div class="page-header">
+            <h1 class="page-title">🔒 Secure Checkout</h1>
+            <p class="page-subtitle">Select a product and complete your purchase securely</p>
+        </div>
+
+        <!-- Affiliate Notice (shows if referred) -->
+        <div id="affiliateNotice" class="affiliate-notice" style="display: none;">
+            <div class="affiliate-notice-title">🎉 Referred by an Affiliate</div>
+            <div class="affiliate-notice-text">
+                You were referred by <strong id="affiliateName"></strong>. 
+                They will earn a commission on this purchase.
+            </div>
+        </div>
+
+        <div class="checkout-grid">
+            <div>
+                <!-- Product Selection -->
+                <div class="product-section">
+                    <h2 class="summary-title">Select a Product</h2>
+                    <div id="productsList">
+                        <!-- Products loaded dynamically -->
+                    </div>
+                </div>
+
+                <!-- Payment Method -->
+                <div class="payment-section" id="paymentSection" style="display: none;">
+                    <h2 class="summary-title">Payment Method (USD Only)</h2>
+                    
+                    <div class="payment-method-selector">
+                        <div class="payment-method selected" data-method="card">
+                            <div class="payment-method-icon">💳</div>
+                            <div class="payment-method-name">Credit/Debit Card</div>
+                        </div>
+                        <div class="payment-method" data-method="ach">
+                            <div class="payment-method-icon">🏦</div>
+                            <div class="payment-method-name">ACH Transfer</div>
+                        </div>
+                        <div class="payment-method" data-method="bank">
+                            <div class="payment-method-icon">🏧</div>
+                            <div class="payment-method-name">Bank Account</div>
+                        </div>
+                    </div>
+
+                    <!-- Stripe Card Element -->
+                    <div id="cardSection">
+                        <label for="card-element" style="font-weight: 600; margin-bottom: 10px; display: block;">
+                            Card Information
+                        </label>
+                        <div id="card-element"></div>
+                        <div id="card-errors" role="alert"></div>
+                    </div>
+
+                    <!-- ACH/Bank Instructions -->
+                    <div id="achInstructions" style="display: none;">
+                        <p style="color: #666; font-size: 14px; padding: 15px; background: #f9fafb; border-radius: 6px;">
+                            You will be redirected to complete ACH bank account verification after clicking "Complete Purchase".
+                        </p>
+                    </div>
+
+                    <div id="bankInstructions" style="display: none;">
+                        <p style="color: #666; font-size: 14px; padding: 15px; background: #f9fafb; border-radius: 6px;">
+                            You will be redirected to link your bank account securely after clicking "Complete Purchase".
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="order-summary">
+                <h2 class="summary-title">Order Summary</h2>
+                
+                <div id="summaryContent">
+                    <p style="color: #999; text-align: center; padding: 40px 0;">
+                        Select a product to see order summary
+                    </p>
+                </div>
+
+                <div id="summaryDetails" style="display: none;">
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span id="subtotal">$0.00</span>
+                    </div>
+                    <div class="summary-row" id="discountRow" style="display: none;">
+                        <span style="color: #10b981;">Discount</span>
+                        <span id="discount" style="color: #10b981;">-$0.00</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total (USD)</span>
+                        <span id="total">$0.00</span>
+                    </div>
+
+                    <div class="coupon-input">
+                        <input type="text" id="couponCode" placeholder="Enter coupon code">
+                        <button class="coupon-btn" onclick="applyCoupon()">Apply</button>
+                    </div>
+                    <div id="couponMessage" class="discount-applied" style="display: none;"></div>
+
+                    <button class="checkout-btn" id="checkoutBtn" onclick="processPayment()">
+                        <span id="btnText">Complete Purchase</span>
+                        <span class="spinner"></span>
+                    </button>
+
+                    <div class="security-badge">
+                        🔒 Secured by Stripe • PCI DSS Compliant
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        // Initialize Stripe
+        const stripe = Stripe('pk_test_YOUR_PUBLISHABLE_KEY'); // Replace with your Stripe publishable key
+        const elements = stripe.elements();
+        const cardElement = elements.create('card', {
+            style: {
+                base: {
+                    fontSize: '16px',
+                    color: '#32325d',
+                    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                    '::placeholder': { color: '#aab7c4' }
+                },
+                invalid: { color: '#dc2626' }
+            }
+        });
+
+        let selectedProduct = null;
+        let selectedPaymentMethod = 'card';
+        let appliedCoupon = null;
+        let affiliateCode = null;
+
+        // Mount card element
+        cardElement.mount('#card-element');
+        cardElement.on('change', (event) => {
+            const displayError = document.getElementById('card-errors');
+            displayError.textContent = event.error ? event.error.message : '';
+        });
+
+        // Check for affiliate referral in URL
+        const urlParams = new URLSearchParams(window.location.search);
+        affiliateCode = urlParams.get('ref');
+        if (affiliateCode) {
+            document.getElementById('affiliateNotice').style.display = 'block';
+            document.getElementById('affiliateName').textContent = affiliateCode.toUpperCase();
+            // Track click
+            trackAffiliateClick(affiliateCode);
+        }
+
+        // Load products
+        async function loadProducts() {
+            try {
+                const response = await ApiClient.get('/api/products');
+                const products = response.data || [];
+                
+                const productsList = document.getElementById('productsList');
+                productsList.innerHTML = products.map(product => {
+                    const icon = getProductIcon(product.type);
+                    const price = product.promotional_price_usd || product.base_price_usd;
+                    
+                    return `
+                        <div class="product-card" onclick="selectProduct('${product.id}')">
+                            <div class="product-icon">${icon}</div>
+                            <div class="product-info">
+                                <div class="product-title">${product.name}</div>
+                                <div class="product-description">${product.description}</div>
+                                <div class="product-features">
+                                    ${product.features.map(f => `<span class="feature-tag">${f}</span>`).join('')}
+                                </div>
+                            </div>
+                            <div class="product-price">$${price.toFixed(2)}</div>
+                        </div>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error('Error loading products:', error);
+                alert('Failed to load products. Please refresh the page.');
+            }
+        }
+
+        function getProductIcon(type) {
+            const icons = {
+                'blog': '📝',
+                'video': '🎥',
+                'book': '📚',
+                'social': '📱',
+                'email': '📧',
+                'ad': '📢'
+            };
+            return icons[type] || '📦';
+        }
+
+        async function selectProduct(productId) {
+            try {
+                const response = await ApiClient.get(`/api/products/${productId}`);
+                selectedProduct = response;
+                
+                // Update UI
+                document.querySelectorAll('.product-card').forEach(card => {
+                    card.classList.remove('selected');
+                });
+                event.target.closest('.product-card').classList.add('selected');
+                
+                // Show payment section
+                document.getElementById('paymentSection').style.display = 'block';
+                
+                // Update summary
+                updateOrderSummary();
+            } catch (error) {
+                console.error('Error selecting product:', error);
+                alert('Failed to select product. Please try again.');
+            }
+        }
+
+        function updateOrderSummary() {
+            if (!selectedProduct) return;
+            
+            const price = selectedProduct.promotional_price_usd || selectedProduct.base_price_usd;
+            let discount = 0;
+            
+            if (appliedCoupon) {
+                if (appliedCoupon.discount_type === 'percentage') {
+                    discount = (price * appliedCoupon.discount_value) / 100;
+                } else {
+                    discount = appliedCoupon.discount_value;
+                }
+            }
+            
+            const total = price - discount;
+            
+            document.getElementById('summaryContent').style.display = 'none';
+            document.getElementById('summaryDetails').style.display = 'block';
+            document.getElementById('subtotal').textContent = `$${price.toFixed(2)}`;
+            document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+            
+            if (discount > 0) {
+                document.getElementById('discountRow').style.display = 'flex';
+                document.getElementById('discount').textContent = `-$${discount.toFixed(2)}`;
+            } else {
+                document.getElementById('discountRow').style.display = 'none';
+            }
+        }
+
+        // Payment method selection
+        document.querySelectorAll('.payment-method').forEach(method => {
+            method.addEventListener('click', function() {
+                document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedPaymentMethod = this.dataset.method;
+                
+                // Show/hide relevant sections
+                document.getElementById('cardSection').style.display = selectedPaymentMethod === 'card' ? 'block' : 'none';
+                document.getElementById('achInstructions').style.display = selectedPaymentMethod === 'ach' ? 'block' : 'none';
+                document.getElementById('bankInstructions').style.display = selectedPaymentMethod === 'bank' ? 'block' : 'none';
+            });
+        });
+
+        async function applyCoupon() {
+            const code = document.getElementById('couponCode').value.trim();
+            if (!code) {
+                alert('Please enter a coupon code');
+                return;
+            }
+            
+            try {
+                const response = await ApiClient.post('/api/coupons/validate', { code, product_id: selectedProduct.id });
+                appliedCoupon = response;
+                document.getElementById('couponMessage').textContent = `✓ Coupon "${code}" applied successfully!`;
+                document.getElementById('couponMessage').style.display = 'block';
+                updateOrderSummary();
+            } catch (error) {
+                alert(error.message || 'Invalid coupon code');
+            }
+        }
+
+        async function processPayment() {
+            if (!selectedProduct) {
+                alert('Please select a product');
+                return;
+            }
+            
+            const btn = document.getElementById('checkoutBtn');
+            btn.disabled = true;
+            btn.classList.add('loading');
+            
+            try {
+                // Create Payment Intent
+                const price = selectedProduct.promotional_price_usd || selectedProduct.base_price_usd;
+                let discount = 0;
+                if (appliedCoupon) {
+                    discount = appliedCoupon.discount_type === 'percentage' 
+                        ? (price * appliedCoupon.discount_value) / 100 
+                        : appliedCoupon.discount_value;
+                }
+                const amount = price - discount;
+                
+                const intentResponse = await ApiClient.post('/api/payments/create-intent', {
+                    product_id: selectedProduct.id,
+                    amount: amount,
+                    coupon_code: appliedCoupon ? appliedCoupon.code : null,
+                    affiliate_code: affiliateCode,
+                    payment_method_type: selectedPaymentMethod
+                });
+                
+                // Confirm payment based on method
+                if (selectedPaymentMethod === 'card') {
+                    const { error, paymentIntent } = await stripe.confirmCardPayment(
+                        intentResponse.client_secret,
+                        {
+                            payment_method: {
+                                card: cardElement,
+                                billing_details: {
+                                    name: TokenManager.getUser().name,
+                                    email: TokenManager.getUser().email
+                                }
+                            }
+                        }
+                    );
+                    
+                    if (error) {
+                        throw new Error(error.message);
+                    }
+                    
+                    // Payment successful
+                    await handlePaymentSuccess(paymentIntent.id);
+                } else {
+                    // Redirect to Stripe for ACH/Bank verification
+                    window.location.href = intentResponse.redirect_url;
+                }
+            } catch (error) {
+                console.error('Payment error:', error);
+                alert(error.message || 'Payment failed. Please try again.');
+                btn.disabled = false;
+                btn.classList.remove('loading');
+            }
+        }
+
+        async function handlePaymentSuccess(paymentIntentId) {
+            try {
+                // Confirm transaction on backend
+                const response = await ApiClient.post('/api/payments/confirm', {
+                    payment_intent_id: paymentIntentId,
+                    product_id: selectedProduct.id,
+                    coupon_code: appliedCoupon ? appliedCoupon.code : null,
+                    affiliate_code: affiliateCode
+                });
+                
+                // Redirect to success page
+                window.location.href = `payment-success.html?transaction=${response.transaction_id}`;
+            } catch (error) {
+                console.error('Confirmation error:', error);
+                alert('Payment processed but confirmation failed. Please contact support.');
+            }
+        }
+
+        async function trackAffiliateClick(code) {
+            try {
+                await ApiClient.post('/api/affiliates/track-click', {
+                    affiliate_code: code,
+                    referrer: document.referrer,
+                    landing_page: window.location.href
+                });
+            } catch (error) {
+                console.error('Affiliate tracking error:', error);
+            }
+        }
+
+        // Load products on page load
+        if (requireAuth()) {
+            loadProducts();
+        }
+    </script>
+</body>
+</html>

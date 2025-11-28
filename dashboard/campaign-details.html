@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campaign Details - OMNI-MIND</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>🧠 OMNI-MIND</h1>
+                <p>AI Campaign Platform</p>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-item">
+                    <span class="icon">📊</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="campaigns.html" class="nav-item active">
+                    <span class="icon">🎯</span>
+                    <span>Campaigns</span>
+                </a>
+                <a href="create-campaign.html" class="nav-item">
+                    <span class="icon">➕</span>
+                    <span>New Campaign</span>
+                </a>
+                <a href="profile.html" class="nav-item">
+                    <span class="icon">👤</span>
+                    <span>Profile</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <button id="logoutBtn" class="logout-btn">🚪 Logout</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Loading State -->
+            <div id="loadingState" class="loading">Loading campaign details...</div>
+
+            <!-- Campaign Content (will be populated by JS) -->
+            <div id="campaignContent" style="display: none;">
+                <!-- Campaign Header -->
+                <div class="campaign-header">
+                    <div class="page-header" style="border: none; margin: 0; padding: 0;">
+                        <div>
+                            <h2 id="campaignName">Loading...</h2>
+                            <div class="campaign-meta" id="campaignMeta"></div>
+                        </div>
+                        <div style="display: flex; gap: var(--spacing-md);">
+                            <button id="processBtn" class="btn btn-primary" style="display: none;">
+                                ▶️ Process Campaign
+                            </button>
+                            <a href="campaigns.html" class="btn btn-secondary">← Back to Campaigns</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Generated Assets -->
+                <div id="assetsContainer" style="margin-top: var(--spacing-xl);">
+                    <!-- Assets will be dynamically loaded here -->
+                </div>
+            </div>
+
+            <!-- Error State -->
+            <div id="errorState" class="error-message" style="display: none;"></div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        // ========================================
+        // Campaign Details Logic
+        // ========================================
+
+        let campaignId = null;
+        let refreshInterval = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check authentication
+            if (!requireAuth()) return;
+
+            // Get campaign ID from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            campaignId = urlParams.get('id');
+
+            if (!campaignId) {
+                showErrorState('Invalid campaign ID');
+                return;
+            }
+
+            // Load campaign details
+            loadCampaignDetails();
+
+            // Set up process button
+            const processBtn = document.getElementById('processBtn');
+            if (processBtn) {
+                processBtn.addEventListener('click', processCampaign);
+            }
+        });
+
+        async function loadCampaignDetails() {
+            try {
+                // Fetch campaign details and results
+                const response = await ApiClient.get(API_CONFIG.ENDPOINTS.CAMPAIGN_RESULTS(campaignId));
+                
+                // Hide loading
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('campaignContent').style.display = 'block';
+
+                // Display campaign info
+                displayCampaignInfo(response.campaign);
+
+                // Display assets
+                if (response.campaign.status === 'completed' && response.assets && response.assets.length > 0) {
+                    displayAssets(response.assets);
+                } else if (response.campaign.status === 'processing') {
+                    displayProcessingState();
+                    // Set up auto-refresh
+                    startAutoRefresh();
+                } else if (response.campaign.status === 'pending') {
+                    displayPendingState();
+                } else if (response.campaign.status === 'failed') {
+                    displayFailedState(response.campaign.error_message);
+                }
+
+            } catch (error) {
+                console.error('Failed to load campaign details:', error);
+                showErrorState(error.message || 'Failed to load campaign details');
+            }
+        }
+
+        function displayCampaignInfo(campaign) {
+            // Campaign name
+            document.getElementById('campaignName').textContent = campaign.name;
+
+            // Campaign meta
+            const meta = document.getElementById('campaignMeta');
+            const tools = getAiToolsIcons(campaign.ai_tools);
+            const statusBadge = getStatusBadge(campaign.status);
+            
+            meta.innerHTML = `
+                <span>${formatCampaignType(campaign.type)}</span>
+                <span>•</span>
+                <span>${formatDate(campaign.created_at)}</span>
+                ${tools ? `<span>•</span><span>${tools}</span>` : ''}
+                <span>•</span>
+                ${statusBadge}
+                ${campaign.processing_time_seconds ? `<span>•</span><span>⏱️ ${campaign.processing_time_seconds}s</span>` : ''}
+            `;
+
+            // Show process button if pending
+            if (campaign.status === 'pending') {
+                document.getElementById('processBtn').style.display = 'inline-block';
+            }
+
+            // Display description
+            const container = document.getElementById('assetsContainer');
+            container.innerHTML = `
+                <div class="form-section">
+                    <h3>📋 Campaign Description</h3>
+                    <p style="color: var(--gray-700); line-height: 1.8;">${campaign.description}</p>
+                </div>
+            ` + container.innerHTML;
+        }
+
+        function displayAssets(assets) {
+            const container = document.getElementById('assetsContainer');
+            
+            // Group assets by type
+            const grouped = {
+                blog: assets.filter(a => a.type === 'blog'),
+                social: assets.filter(a => a.type === 'social'),
+                ad: assets.filter(a => a.type === 'ad'),
+                image: assets.filter(a => a.type === 'image'),
+                audio: assets.filter(a => a.type === 'audio')
+            };
+
+            let html = '<h3 style="margin-top: var(--spacing-2xl); margin-bottom: var(--spacing-lg);">🎯 Generated Content</h3>';
+            html += '<div class="assets-grid">';
+
+            // Display each asset
+            assets.forEach(asset => {
+                html += createAssetCard(asset);
+            });
+
+            html += '</div>';
+            container.innerHTML += html;
+        }
+
+        function createAssetCard(asset) {
+            const typeIcons = {
+                blog: '📝',
+                social: '📱',
+                ad: '📢',
+                image: '🎨',
+                audio: '🎙️'
+            };
+
+            const icon = typeIcons[asset.type] || '📎';
+            let contentHtml = '';
+
+            // Format content based on type
+            if (asset.type === 'image' && asset.file_url) {
+                contentHtml = `<img src="${asset.file_url}" alt="${asset.title}" style="width: 100%; border-radius: var(--radius-md); margin: var(--spacing-md) 0;">`;
+            } else if (asset.type === 'audio' && asset.file_url) {
+                contentHtml = `
+                    <audio controls style="width: 100%; margin: var(--spacing-md) 0;">
+                        <source src="${asset.file_url}" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                `;
+            } else if (asset.content) {
+                contentHtml = `<div class="asset-content">${formatContent(asset.content)}</div>`;
+            }
+
+            return `
+                <div class="asset-card">
+                    <div class="asset-header">
+                        <span class="asset-type">${icon}</span>
+                        <h4 class="asset-title">${asset.title || 'Untitled'}</h4>
+                    </div>
+                    ${contentHtml}
+                    <small style="color: var(--gray-500);">Created: ${formatDate(asset.created_at)}</small>
+                </div>
+            `;
+        }
+
+        function formatContent(content) {
+            if (!content) return '';
+            // Replace newlines with <br> and preserve formatting
+            return content
+                .replace(/\n\n/g, '</p><p>')
+                .replace(/\n/g, '<br>')
+                .replace(/^(.+)$/, '<p>$1</p>');
+        }
+
+        function displayProcessingState() {
+            const container = document.getElementById('assetsContainer');
+            container.innerHTML += `
+                <div class="form-section text-center">
+                    <h3>⏳ Processing Campaign</h3>
+                    <p style="color: var(--gray-600); margin-top: var(--spacing-md);">
+                        Your campaign is currently being processed. This usually takes 15-30 seconds.
+                        <br>This page will automatically refresh when complete.
+                    </p>
+                    <div style="margin-top: var(--spacing-xl);">
+                        <div class="loading">Generating AI content...</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function displayPendingState() {
+            const container = document.getElementById('assetsContainer');
+            container.innerHTML += `
+                <div class="form-section text-center">
+                    <h3>📝 Campaign Ready</h3>
+                    <p style="color: var(--gray-600); margin-top: var(--spacing-md);">
+                        This campaign is ready to be processed. Click "Process Campaign" to generate AI content.
+                    </p>
+                </div>
+            `;
+        }
+
+        function displayFailedState(errorMessage) {
+            const container = document.getElementById('assetsContainer');
+            container.innerHTML += `
+                <div class="form-section">
+                    <div class="error-message">
+                        <strong>❌ Processing Failed</strong><br>
+                        ${errorMessage || 'An unknown error occurred during processing.'}
+                    </div>
+                    <button onclick="processCampaign()" class="btn btn-primary" style="margin-top: var(--spacing-lg);">
+                        🔄 Retry Processing
+                    </button>
+                </div>
+            `;
+        }
+
+        function showErrorState(message) {
+            document.getElementById('loadingState').style.display = 'none';
+            const errorEl = document.getElementById('errorState');
+            errorEl.textContent = message;
+            errorEl.style.display = 'block';
+        }
+
+        async function processCampaign() {
+            if (!confirm('Start processing this campaign? This will generate all AI content.')) {
+                return;
+            }
+
+            try {
+                await ApiClient.post(API_CONFIG.ENDPOINTS.PROCESS_CAMPAIGN(campaignId));
+                alert('Processing started! The page will refresh automatically.');
+                
+                // Start auto-refresh
+                startAutoRefresh();
+                
+                // Reload immediately
+                setTimeout(() => location.reload(), 2000);
+            } catch (error) {
+                console.error('Failed to process campaign:', error);
+                alert('Failed to start processing: ' + (error.message || 'Unknown error'));
+            }
+        }
+
+        function startAutoRefresh() {
+            // Clear existing interval
+            if (refreshInterval) {
+                clearInterval(refreshInterval);
+            }
+
+            // Refresh every 5 seconds
+            refreshInterval = setInterval(async () => {
+                try {
+                    const response = await ApiClient.get(API_CONFIG.ENDPOINTS.CAMPAIGN_RESULTS(campaignId));
+                    
+                    // If status changed from processing, reload page
+                    if (response.campaign.status !== 'processing') {
+                        clearInterval(refreshInterval);
+                        location.reload();
+                    }
+                } catch (error) {
+                    console.error('Auto-refresh failed:', error);
+                }
+            }, 5000);
+        }
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            if (refreshInterval) {
+                clearInterval(refreshInterval);
+            }
+        });
+    </script>
+</body>
+</html>

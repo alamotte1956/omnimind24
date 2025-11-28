@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to OmniMind24 - Get Your $50 Credit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gold: #D4AF37;
+            --gold-light: #F4E4B5;
+            --gold-dark: #B8941F;
+            --black: #000000;
+            --dark-gray: #1a1a1a;
+            --white: #ffffff;
+            --gradient-gold: linear-gradient(135deg, #D4AF37 0%, #FFD700 100%);
+            --gradient-dark: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--gradient-dark);
+            color: var(--white);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            overflow-y: auto;
+        }
+
+        .container {
+            max-width: 700px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .welcome-card {
+            background: var(--dark-gray);
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--primary-gold);
+            text-align: center;
+        }
+
+        .logo {
+            margin-bottom: 1.5rem;
+        }
+
+        .logo img {
+            max-width: 200px;
+            height: auto;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 0.75rem;
+            line-height: 1.2;
+        }
+
+        h1 span {
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tagline {
+            font-size: 1rem;
+            color: #FFD700;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .credit-banner {
+            background: var(--gradient-gold);
+            color: var(--black);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .credit-banner::before {
+            content: '🎁';
+            position: absolute;
+            font-size: 6rem;
+            opacity: 0.1;
+            right: -20px;
+            top: -20px;
+        }
+
+        .credit-banner h2 {
+            font-size: 1.8rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+        }
+
+        .credit-banner p {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .promo-code {
+            background: var(--black);
+            color: var(--primary-gold);
+            padding: 1.25rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+            border: 2px dashed var(--primary-gold);
+        }
+
+        .promo-code h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            color: var(--white);
+        }
+
+        .code {
+            font-size: 1.5rem;
+            font-weight: 900;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+            color: var(--primary-gold);
+            background: rgba(212, 175, 55, 0.1);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            display: inline-block;
+            margin: 0.75rem 0;
+        }
+
+        .copy-btn {
+            background: var(--primary-gold);
+            color: var(--black);
+            border: none;
+            padding: 0.6rem 1.25rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 0.75rem;
+        }
+
+        .copy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .benefits {
+            text-align: left;
+            margin: 3rem 0;
+            background: rgba(212, 175, 55, 0.05);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .benefits h3 {
+            color: var(--primary-gold);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .benefits ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .benefits li {
+            padding: 1rem 0;
+            padding-left: 3rem;
+            position: relative;
+            font-size: 1.1rem;
+        }
+
+        .benefits li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            background: var(--gradient-gold);
+            color: var(--black);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.9rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--gradient-gold);
+            color: var(--black);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(212, 175, 55, 0.4);
+        }
+
+        .btn-outline {
+            border: 2px solid var(--primary-gold);
+            color: var(--primary-gold);
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-gold);
+            color: var(--black);
+        }
+
+        .urgency {
+            background: rgba(255, 193, 7, 0.1);
+            border: 2px solid #FFC107;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+        }
+
+        .urgency p {
+            color: #FFC107;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .footer .tagline {
+            color: var(--primary-gold);
+            margin-top: 0.5rem;
+            font-size: 1rem;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        .referral-section {
+            background: rgba(212, 175, 55, 0.05);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            margin: 2rem 0;
+        }
+
+        .referral-input-group {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .share-section {
+            background: var(--gradient-gold);
+            color: var(--black);
+            padding: 1.75rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .share-section h3 {
+            font-size: 1.5rem;
+            font-weight: 900;
+            margin-bottom: 0.75rem;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+
+        .share-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            color: white;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .share-btn.facebook {
+            background: #1877f2;
+        }
+
+        .share-btn.twitter {
+            background: #1da1f2;
+        }
+
+        .share-btn.linkedin {
+            background: #0077b5;
+        }
+
+        .share-btn.email {
+            background: #ea4335;
+        }
+
+        .share-btn.copy {
+            background: var(--black);
+        }
+
+        .share-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .referral-stats {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.25rem;
+            border-radius: 10px;
+            margin-top: 1.25rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-item .number {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--black);
+        }
+
+        .stat-item .label {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .welcome-card {
+                padding: 1.5rem 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .credit-banner h2 {
+                font-size: 1.8rem;
+            }
+
+            .code {
+                font-size: 1.5rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="welcome-card">
+            <div class="logo">
+                <img src="images/omnimind24-logo-new.png" alt="OmniMind24">
+            </div>
+
+            <p class="tagline">Intelligence Means Business</p>
+
+            <div class="credit-banner pulse">
+                <h2>🎉 $50 Welcome Credit</h2>
+                <p>Exclusive offer for new users!</p>
+            </div>
+
+            <div class="promo-code">
+                <h3>Your Exclusive Promo Code:</h3>
+                <div class="code" id="promoCode">WELCOME50</div>
+                <button class="copy-btn" onclick="copyCode()">
+                    <i class="fas fa-copy"></i> Copy Code
+                </button>
+                <p style="margin-top: 1rem; font-size: 0.9rem; color: rgba(255,255,255,0.7);">
+                    Use this code at checkout to receive your $50 credit
+                </p>
+            </div>
+
+            <div class="benefits">
+                <h3>What Your $50 Credit Gets You:</h3>
+                <ul>
+                    <li>Access to 15 premium AI services</li>
+                    <li>Automatic AI tool selection based on your goals</li>
+                    <li>Professional-quality content generation</li>
+                    <li>Video creation with top AI models</li>
+                    <li>Image generation and editing</li>
+                    <li>Copywriting and marketing content</li>
+                    <li>Priority support from OmniMind24</li>
+                    <li>No commitment - use your credit as you need</li>
+                </ul>
+            </div>
+
+            <div class="urgency">
+                <p>⏰ This offer is available for first-time users only. Don't miss out!</p>
+            </div>
+
+            <div class="cta-buttons">
+                <a href="dashboard/checkout.html?code=WELCOME50" class="btn btn-primary">
+                    <i class="fas fa-rocket"></i> Claim Your $50 Credit
+                </a>
+                <a href="dashboard/register.html" class="btn btn-outline">
+                    <i class="fas fa-user-plus"></i> Create Account First
+                </a>
+            </div>
+
+            <div class="referral-section">
+                <h3 style="color: var(--primary-gold); font-size: 1.3rem; margin-bottom: 0.75rem;">
+                    💰 Have a Referral Code?
+                </h3>
+                <p style="margin-bottom: 1.25rem; color: rgba(255,255,255,0.8); font-size: 0.95rem;">
+                    Enter a friend's referral code and you'll BOTH get an extra $25 credit!
+                </p>
+                <div class="referral-input-group">
+                    <input 
+                        type="text" 
+                        id="referralCode" 
+                        placeholder="Enter referral code (optional)"
+                        style="flex: 1; padding: 1rem; border: 2px solid var(--primary-gold); border-radius: 8px; background: var(--black); color: var(--white); font-size: 1rem;"
+                    >
+                    <button onclick="applyReferral()" class="copy-btn" style="margin-left: 1rem;">
+                        <i class="fas fa-check"></i> Apply
+                    </button>
+                </div>
+                <div id="referralSuccess" style="display: none; margin-top: 1rem; padding: 1rem; background: rgba(16, 185, 129, 0.1); border: 2px solid #10b981; border-radius: 8px; color: #10b981;">
+                    <i class="fas fa-check-circle"></i> Referral applied! You'll get $75 total ($50 welcome + $25 referral bonus)
+                </div>
+            </div>
+
+            <p style="margin-top: 2rem; color: rgba(255,255,255,0.7);">
+                Already have an account? <a href="dashboard/login.html" style="color: var(--primary-gold); text-decoration: none; font-weight: 600;">Sign In</a>
+            </p>
+
+            <div class="share-section">
+                <h3>🎁 Earn $25 Per Referral!</h3>
+                <p style="font-size: 1rem; margin-bottom: 0.75rem;">
+                    After you sign up, you'll get your own referral code. Share it with friends and colleagues!
+                </p>
+                <div class="referral-stats">
+                    <div class="stat-item">
+                        <div class="number">$25</div>
+                        <div class="label">You Earn</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="number">$25</div>
+                        <div class="label">They Earn</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="number">∞</div>
+                        <div class="label">Unlimited Referrals</div>
+                    </div>
+                </div>
+                <p style="margin-top: 1.25rem; font-size: 0.9rem; opacity: 0.9;">
+                    <strong>Example:</strong> Refer 10 friends = $250 in credits!
+                </p>
+                <div class="share-buttons">
+                    <button class="share-btn facebook" onclick="shareToFacebook()">
+                        <i class="fab fa-facebook-f"></i> Facebook
+                    </button>
+                    <button class="share-btn twitter" onclick="shareToTwitter()">
+                        <i class="fab fa-twitter"></i> Twitter
+                    </button>
+                    <button class="share-btn linkedin" onclick="shareToLinkedIn()">
+                        <i class="fab fa-linkedin-in"></i> LinkedIn
+                    </button>
+                    <button class="share-btn email" onclick="shareViaEmail()">
+                        <i class="fas fa-envelope"></i> Email
+                    </button>
+                    <button class="share-btn copy" onclick="copyShareLink()">
+                        <i class="fas fa-link"></i> Copy Link
+                    </button>
+                </div>
+            </div>
+
+            <div class="footer">
+                <p>&copy; 2025 A.I. Help Pros LLP. All rights reserved.</p>
+                <p class="tagline">Intelligence Means Business</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const shareUrl = window.location.href;
+        const shareText = "Get $50 credit to try OmniMind24 - Premium AI tools that automatically select the best service for your goals. Use my referral code for an extra $25!";
+
+        function copyCode() {
+            const code = document.getElementById('promoCode').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                const btn = event.target.closest('.copy-btn');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                btn.style.background = '#10b981';
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.style.background = '';
+                }, 2000);
+            });
+        }
+
+        function applyReferral() {
+            const referralCode = document.getElementById('referralCode').value.trim();
+            if (referralCode) {
+                sessionStorage.setItem('referralCode', referralCode);
+                document.getElementById('referralSuccess').style.display = 'block';
+                
+                // Update checkout link to include referral
+                const checkoutLink = document.querySelector('a[href*="checkout"]');
+                if (checkoutLink) {
+                    checkoutLink.href = `dashboard/checkout.html?code=WELCOME50&referral=${referralCode}`;
+                }
+            }
+        }
+
+        function shareToFacebook() {
+            const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
+            window.open(url, '_blank', 'width=600,height=400');
+        }
+
+        function shareToTwitter() {
+            const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
+            window.open(url, '_blank', 'width=600,height=400');
+        }
+
+        function shareToLinkedIn() {
+            const url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`;
+            window.open(url, '_blank', 'width=600,height=400');
+        }
+
+        function shareViaEmail() {
+            const subject = "Get $50 credit for OmniMind24 - Premium AI Tools";
+            const body = `${shareText}\n\nSign up here: ${shareUrl}`;
+            window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        }
+
+        function copyShareLink() {
+            navigator.clipboard.writeText(shareUrl).then(() => {
+                const btn = event.target.closest('.share-btn');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                btn.style.background = '#10b981';
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.style.background = '#000000';
+                }, 2000);
+            });
+        }
+
+        // Track that user visited welcome page
+        sessionStorage.setItem('welcomeVisited', 'true');
+        sessionStorage.setItem('promoCode', 'WELCOME50');
+
+        // Check if there's a referral code in URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const referralFromUrl = urlParams.get('ref');
+        if (referralFromUrl) {
+            document.getElementById('referralCode').value = referralFromUrl;
+            applyReferral();
+        }
+    </script>
+</body>
+</html>
