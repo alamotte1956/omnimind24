@@ -142,3 +142,4 @@ startServer();
 
 module.exports = app;
 
+app.use('/api', require('./src/routes/env-test'));  // Environment test endpoint 
