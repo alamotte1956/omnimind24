@@ -1,0 +1,63 @@
+// Simple pass-through storage service (AWS SDK removed due to Railway compatibility issues)
+const axios = require('axios');
+const logger = require('../config/logger');
+
+class StorageService {
+  constructor() {
+    logger.info('📦 Storage service initialized in pass-through mode');
+    logger.info('💡 Files will use direct URLs from AI services');
+    this.enabled = false;
+  }
+
+  async downloadAndUpload(sourceUrl, campaignId, options = {}) {
+    logger.info(`Pass-through: returning original URL - ${sourceUrl}`);
+    return sourceUrl;
+  }
+
+  async uploadBuffer(buffer, fileName, contentType = 'application/octet-stream') {
+    logger.info(`Pass-through: ${fileName} (${buffer.length} bytes)`);
+    return {
+      url: `data:${contentType};base64,${buffer.toString('base64')}`,
+      key: fileName,
+      bucket: 'pass-through',
+      size: buffer.length
+    };
+  }
+
+  async uploadTextContent(content, fileName, contentType = 'text/plain') {
+    return {
+      url: `data:${contentType};charset=utf-8,${encodeURIComponent(content)}`,
+      key: fileName
+    };
+  }
+
+  async uploadJSON(data, fileName) {
+    const jsonString = JSON.stringify(data, null, 2);
+    return {
+      url: `data:application/json;charset=utf-8,${encodeURIComponent(jsonString)}`,
+      key: fileName
+    };
+  }
+
+  async getSignedUrl(key, expiresIn = 3600) {
+    throw new Error('Storage service is in pass-through mode');
+  }
+
+  async deleteFile(key) {
+    return;
+  }
+
+  isEnabled() {
+    return false;
+  }
+
+  getStats() {
+    return {
+      enabled: false,
+      mode: 'pass-through',
+      message: 'Using direct URLs from AI services'
+    };
+  }
+}
+
+module.exports = new StorageService();
