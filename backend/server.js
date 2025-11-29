@@ -70,8 +70,8 @@ app.use('/api/campaigns', require('./src/routes/campaigns'));
 console.log('✅ Campaigns routes loaded');
 // app.use('/api/contact', require('./src/routes/contact.routes'));
 // console.log('✅ Contact routes loaded');
-app.use('/api/services', require('./src/routes/services'));
-console.log('✅ Services routes loaded');
+// app.use('/api/services', require('./src/routes/services'));// Disabled - file not found
+// console.log('✅ Services routes loaded');
 app.use('/api', require('./src/routes/s3-test'));
 console.log('✅ S3-test routes loaded');
 app.use('/api', require('./src/routes/env-test'));
