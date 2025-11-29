@@ -1,77 +1,431 @@
-<!DOCTYPE html> 
-<html lang="en"> 
-<head> 
-    <meta charset="UTF-8"> 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>API Reference - OmniMind24</title> 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
-    <style> 
-        body { font-family: 'Inter', sans-serif; background: #000; color: #fff; margin: 0; padding: 0; } 
-        nav { background: rgba(0,0,0,0.95); padding: 1rem 2rem; border-bottom: 2px solid #FFD700; position: fixed; width: 100 0; z-index: 1000; } 
-        .nav-container { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; } 
-        .logo { font-size: 1.8rem; font-weight: 800; color: #FFD700; text-decoration: none; } 
-        .nav-links { display: flex; gap: 2rem; list-style: none; } 
-        .nav-links a { color: #fff; text-decoration: none; font-weight: 500; transition: color 0.3s; } 
-        .nav-links a:hover { color: #FFD700; } 
-        .content { max-width: 1200px; margin: 120px auto 0; padding: 40px 2rem; } 
-        .content h1 { font-size: 3rem; margin-bottom: 2rem; color: #FFD700; } 
-        .content h2 { font-size: 2rem; margin-top: 3rem; margin-bottom: 1rem; color: #FFD700; } 
-        .endpoint { background: #1a1a1a; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border-left: 4px solid #FFD700; } 
-        .method { display: inline-block; padding: 0.3rem 0.8rem; background: #FFD700; color: #000; font-weight: 700; border-radius: 4px; margin-right: 1rem; } 
-        code { background: #2a2a2a; padding: 0.2rem 0.5rem; border-radius: 4px; color: #FFD700; } 
-        pre { background: #1a1a1a; padding: 1.5rem; border-radius: 8px; overflow-x: auto; } 
-        footer { background: #000; padding: 3rem 2rem; border-top: 2px solid #FFD700; text-align: center; color: #ccc; margin-top: 4rem; } 
-    </style> 
-</head> 
-<body> 
-    <nav> 
-        <div class="nav-container"> 
-            <a href="index.html" class="logo">OmniMind24</a> 
-            <ul class="nav-links"> 
-                <li><a href="index.html">Home</a></li> 
-                <li><a href="features.html">Features</a></li> 
-                <li><a href="pricing.html">Pricing</a></li> 
-                <li><a href="documentation.html">Docs</a></li> 
-                <li><a href="support.html">Support</a></li> 
-            </ul> 
-        </div> 
-    </nav> 
-    <div class="content"> 
-        <h1>API Reference</h1> 
-        <p>Complete REST API documentation for OmniMind24 platform.</p> 
-        <h2>Authentication</h2> 
-        <p>All API requests require authentication using Bearer tokens:</p> 
-        <pre>Authorization: Bearer YOUR_API_TOKEN</pre> 
-        <h2>Campaigns</h2> 
-        <div class="endpoint"> 
-            <span class="method">GET</span> 
-            <code>/api/campaigns</code> 
-            <p>Retrieve all campaigns for the authenticated user.</p> 
-        </div> 
-        <div class="endpoint"> 
-            <span class="method">POST</span> 
-            <code>/api/campaigns</code> 
-            <p>Create a new campaign with COSTAR framework data.</p> 
-        </div> 
-        <div class="endpoint"> 
-            <span class="method">GET</span> 
-            <code>/api/campaigns/:id</code> 
-            <p>Retrieve a specific campaign by ID.</p> 
-        </div> 
-        <h2>Content Generation</h2> 
-        <div class="endpoint"> 
-            <span class="method">POST</span> 
-            <code>/api/generate</code> 
-            <p>Generate AI-powered content using selected services.</p> 
-        </div> 
-        <h2>Rate Limits</h2> 
-        <p>API requests are limited based on your plan tier. See <a href="pricing.html" style="color: #FFD700;">Pricing</a> for details.</p> 
-    </div> 
-    <footer> 
-        <p>© 2024 OmniMind24. All rights reserved.</p> 
-    </footer> 
-</body> 
-</html> 
-<!-- Cache bust: Sat 11/29/2025 10:59:31.53 --> 
-<!-- CACHE BUST: 20251129_113654 --> 
-<!-- CACHE BUST: 20251129_114031 --> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Reference - OmniMind24</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --primary-gold: #FFD700;
+            --dark-gold: #B8860B;
+            --black: #000000;
+            --dark-gray: #1a1a1a;
+            --light-gray: #f5f5f5;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: var(--light-gray);
+        }
+        nav {
+            background: var(--black);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-gold);
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: var(--primary-gold);
+        }
+        main {
+            margin-top: 80px;
+            padding: 3rem 2rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: var(--black);
+            margin-bottom: 2rem;
+            border-bottom: 3px solid var(--primary-gold);
+            padding-bottom: 1rem;
+        }
+        h2 {
+            color: var(--black);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        .api-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .api-section h3 {
+            color: var(--dark-gold);
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .api-section p {
+            margin-bottom: 1rem;
+            color: #666;
+        }
+        .endpoint {
+            background: var(--light-gray);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid var(--primary-gold);
+        }
+        .method {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-right: 1rem;
+        }
+        .method.get { background: #61affe; color: white; }
+        .method.post { background: #49cc90; color: white; }
+        .method.put { background: #fca130; color: white; }
+        .method.delete { background: #f93e3e; color: white; }
+        .api-section code {
+            background: var(--dark-gray);
+            color: var(--primary-gold);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+        .api-section pre {
+            background: var(--dark-gray);
+            color: #f8f8f2;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        .api-section pre code {
+            background: transparent;
+            padding: 0;
+        }
+        .param-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        .param-table th {
+            background: var(--dark-gold);
+            color: white;
+            padding: 0.8rem;
+            text-align: left;
+        }
+        .param-table td {
+            padding: 0.8rem;
+            border-bottom: 1px solid #ddd;
+        }
+        .param-table tr:hover {
+            background: var(--light-gray);
+        }
+        footer {
+            background: var(--black);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <div class="logo">OmniMind24</div>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="features.html">Features</a></li>
+                <li><a href="pricing.html">Pricing</a></li>
+                <li><a href="documentation.html">Docs</a></li>
+                <li><a href="support.html">Support</a></li>
+                <li><a href="help-center.html">Help</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <h1><i class="fas fa-code"></i> API Reference</h1>
+
+        <div class="api-section">
+            <h2>Authentication</h2>
+            <p>All API requests require authentication using an API key. Include your API key in the request header:</p>
+            <pre><code>Authorization: Bearer YOUR_API_KEY</code></pre>
+            <p>Get your API key from your <a href="dashboard/index.html">dashboard</a>.</p>
+        </div>
+
+        <div class="api-section">
+            <h2>Base URL</h2>
+            <pre><code>https://api.omnimind24.com/v1</code></pre>
+        </div>
+
+        <div class="api-section">
+            <h2>Campaigns</h2>
+            
+            <div class="endpoint">
+                <h3><span class="method get">GET</span>/campaigns</h3>
+                <p>Retrieve all campaigns for your account.</p>
+                
+                <h4>Query Parameters</h4>
+                <table class="param-table">
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Required</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><code>page</code></td>
+                        <td>integer</td>
+                        <td>No</td>
+                        <td>Page number (default: 1)</td>
+                    </tr>
+                    <tr>
+                        <td><code>limit</code></td>
+                        <td>integer</td>
+                        <td>No</td>
+                        <td>Results per page (default: 20, max: 100)</td>
+                    </tr>
+                    <tr>
+                        <td><code>status</code></td>
+                        <td>string</td>
+                        <td>No</td>
+                        <td>Filter by status: active, paused, completed</td>
+                    </tr>
+                </table>
+
+                <h4>Example Request</h4>
+                <pre><code>curl -X GET "https://api.omnimind24.com/v1/campaigns?limit=10" \
+  -H "Authorization: Bearer YOUR_API_KEY"</code></pre>
+
+                <h4>Example Response</h4>
+                <pre><code>{
+  "success": true,
+  "data": [
+    {
+      "id": "camp_abc123",
+      "name": "Summer Sale Campaign",
+      "status": "active",
+      "created_at": "2024-11-01T10:00:00Z",
+      "metrics": {
+        "impressions": 15000,
+        "clicks": 450,
+        "conversions": 23
+      }
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "total_pages": 5,
+    "total_results": 47
+  }
+}</code></pre>
+            </div>
+
+            <div class="endpoint">
+                <h3><span class="method post">POST</span>/campaigns</h3>
+                <p>Create a new marketing campaign.</p>
+
+                <h4>Request Body</h4>
+                <table class="param-table">
+                    <tr>
+                        <th>Field</th>
+                        <th>Type</th>
+                        <th>Required</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><code>name</code></td>
+                        <td>string</td>
+                        <td>Yes</td>
+                        <td>Campaign name</td>
+                    </tr>
+                    <tr>
+                        <td><code>type</code></td>
+                        <td>string</td>
+                        <td>Yes</td>
+                        <td>email, social, content, video</td>
+                    </tr>
+                    <tr>
+                        <td><code>costar</code></td>
+                        <td>object</td>
+                        <td>Yes</td>
+                        <td>COSTAR framework parameters</td>
+                    </tr>
+                    <tr>
+                        <td><code>ai_services</code></td>
+                        <td>array</td>
+                        <td>Yes</td>
+                        <td>AI models to use (gpt-4o, claude-3, etc.)</td>
+                    </tr>
+                </table>
+
+                <h4>Example Request</h4>
+                <pre><code>curl -X POST "https://api.omnimind24.com/v1/campaigns" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Holiday Promotion",
+    "type": "email",
+    "costar": {
+      "context": "E-commerce holiday sale",
+      "objective": "Drive 20% increase in sales",
+      "style": "Festive and urgent",
+      "tone": "Exciting",
+      "audience": "Existing customers 25-45",
+      "response": "Shop now with discount code"
+    },
+    "ai_services": ["gpt-4o", "dall-e-3"]
+  }'</code></pre>
+            </div>
+
+            <div class="endpoint">
+                <h3><span class="method get">GET</span>/campaigns/:id</h3>
+                <p>Get details of a specific campaign.</p>
+            </div>
+
+            <div class="endpoint">
+                <h3><span class="method put">PUT</span>/campaigns/:id</h3>
+                <p>Update an existing campaign.</p>
+            </div>
+
+            <div class="endpoint">
+                <h3><span class="method delete">DELETE</span>/campaigns/:id</h3>
+                <p>Delete a campaign.</p>
+            </div>
+        </div>
+
+        <div class="api-section">
+            <h2>Content Generation</h2>
+            
+            <div class="endpoint">
+                <h3><span class="method post">POST</span>/generate/text</h3>
+                <p>Generate AI-powered text content.</p>
+
+                <h4>Request Body</h4>
+                <pre><code>{
+  "model": "gpt-4o",
+  "prompt": "Write an email subject line for a summer sale",
+  "max_tokens": 100,
+  "temperature": 0.7
+}</code></pre>
+            </div>
+
+            <div class="endpoint">
+                <h3><span class="method post">POST</span>/generate/image</h3>
+                <p>Generate AI images.</p>
+
+                <h4>Request Body</h4>
+                <pre><code>{
+  "model": "dall-e-3",
+  "prompt": "Professional marketing banner with gold accents",
+  "size": "1024x1024",
+  "quality": "hd"
+}</code></pre>
+            </div>
+        </div>
+
+        <div class="api-section">
+            <h2>Analytics</h2>
+            
+            <div class="endpoint">
+                <h3><span class="method get">GET</span>/analytics/campaigns/:id</h3>
+                <p>Get detailed analytics for a campaign.</p>
+                
+                <h4>Response Fields</h4>
+                <ul>
+                    <li><code>impressions</code> - Total views</li>
+                    <li><code>clicks</code> - Total clicks</li>
+                    <li><code>conversions</code> - Total conversions</li>
+                    <li><code>ctr</code> - Click-through rate</li>
+                    <li><code>roi</code> - Return on investment</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="api-section">
+            <h2>Rate Limits</h2>
+            <ul>
+                <li><strong>Free Plan:</strong> 100 requests/hour</li>
+                <li><strong>Pro Plan:</strong> 1,000 requests/hour</li>
+                <li><strong>Enterprise Plan:</strong> Unlimited</li>
+            </ul>
+            <p>Rate limit headers are included in all responses:</p>
+            <pre><code>X-RateLimit-Limit: 1000
+X-RateLimit-Remaining: 999
+X-RateLimit-Reset: 1699027200</code></pre>
+        </div>
+
+        <div class="api-section">
+            <h2>Error Codes</h2>
+            <table class="param-table">
+                <tr>
+                    <th>Code</th>
+                    <th>Status</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td><code>400</code></td>
+                    <td>Bad Request</td>
+                    <td>Invalid request parameters</td>
+                </tr>
+                <tr>
+                    <td><code>401</code></td>
+                    <td>Unauthorized</td>
+                    <td>Invalid or missing API key</td>
+                </tr>
+                <tr>
+                    <td><code>429</code></td>
+                    <td>Too Many Requests</td>
+                    <td>Rate limit exceeded</td>
+                </tr>
+                <tr>
+                    <td><code>500</code></td>
+                    <td>Internal Server Error</td>
+                    <td>Server error, contact support</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="api-section">
+            <h2>Need Help?</h2>
+            <p>Visit our <a href="documentation.html">Documentation</a> or <a href="support.html">Contact Support</a></p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 OmniMind24. All rights reserved.</p>
+    </footer>
+</body>
+</html>
