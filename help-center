@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Center - OmniMind24</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --primary-gold: #FFD700;
+            --dark-gold: #B8860B;
+            --black: #000000;
+            --dark-gray: #1a1a1a;
+            --light-gray: #f5f5f5;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: var(--light-gray);
+        }
+        nav {
+            background: var(--black);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-gold);
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: var(--primary-gold);
+        }
+        main {
+            margin-top: 80px;
+            padding: 3rem 2rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: var(--black);
+            margin-bottom: 2rem;
+            border-bottom: 3px solid var(--primary-gold);
+            padding-bottom: 1rem;
+        }
+        h2 {
+            color: var(--black);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        .search-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .search-box input {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.1rem;
+            border: 2px solid var(--primary-gold);
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+        }
+        .faq-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .faq-item {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+        .faq-question {
+            color: var(--black);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .faq-question:hover {
+            color: var(--dark-gold);
+        }
+        .faq-question i {
+            color: var(--primary-gold);
+        }
+        .faq-answer {
+            color: #666;
+            margin-left: 1.5rem;
+        }
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .category-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            text-align: center;
+        }
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(255,215,0,0.3);
+        }
+        .category-card i {
+            font-size: 2.5rem;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+        }
+        .category-card h3 {
+            color: var(--black);
+            margin-bottom: 0.5rem;
+        }
+        .category-card p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        footer {
+            background: var(--black);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <div class="logo">OmniMind24</div>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="features.html">Features</a></li>
+                <li><a href="pricing.html">Pricing</a></li>
+                <li><a href="documentation.html">Docs</a></li>
+                <li><a href="support.html">Support</a></li>
+                <li><a href="help-center.html">Help</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <h1><i class="fas fa-question-circle"></i> Help Center</h1>
+
+        <div class="search-box">
+            <input type="text" placeholder="Search for help... (e.g., 'How to create a campaign?')" id="searchInput">
+        </div>
+
+        <div class="category-grid">
+            <div class="category-card">
+                <i class="fas fa-rocket"></i>
+                <h3>Getting Started</h3>
+                <p>Learn the basics</p>
+            </div>
+            <div class="category-card">
+                <i class="fas fa-bullhorn"></i>
+                <h3>Campaigns</h3>
+                <p>Create & manage</p>
+            </div>
+            <div class="category-card">
+                <i class="fas fa-robot"></i>
+                <h3>AI Services</h3>
+                <p>25+ AI tools</p>
+            </div>
+            <div class="category-card">
+                <i class="fas fa-chart-line"></i>
+                <h3>Analytics</h3>
+                <p>Track performance</p>
+            </div>
+        </div>
+
+        <div class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <i class="fas fa-chevron-right"></i>
+                    <span>How do I create my first campaign?</span>
+                </div>
+                <div class="faq-answer">
+                    Navigate to the <a href="dashboard/create-campaign.html">Campaign Creator</a>, select your campaign type, fill in the COSTAR framework fields, choose your AI services, and click "Generate Content". Review and deploy when ready.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <i class="fas fa-chevron-right"></i>
+                    <span>What is the COSTAR framework?</span>
+                </div>
+                <div class="faq-answer">
+                    COSTAR stands for Context, Objective, Style, Tone, Audience, and Response. It's a proven framework that ensures your AI-generated content is targeted, effective, and aligned with your business goals. Learn more in our <a href="documentation.html#costar">documentation</a>.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <i class="fas fa-chevron-right"></i>
+                    <span>Which AI models should I use?</span>
+                </div>
+                <div class="faq-answer">
+                    It depends on your needs: <strong>GPT-4o</strong> for versatile text, <strong>Claude-3</strong> for nuanced copy, <strong>Gemini Pro</strong> for research-heavy content, <strong>DALL-E 3</strong> for images, and <strong>ElevenLabs</strong> for voice. You can test multiple models and compare results.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <i class="fas fa-chevron-right"></i>
+                    <span>How much does OmniMind24 cost?</span>
+                </div>
+                <div class="faq-answer">
+                    We offer three plans: <strong>Starter ($99/month)</strong> for small businesses, <strong>Pro ($299/month)</strong> for growing companies, and <strong>Enterprise (custom pricing)</strong> for large organizations. See our <a href="pricing.html">pricing page</a> for details.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <i class="fas fa-chevron-right"></i>
+                    <span>Can I integrate OmniMind24 with my existing tools?</span>
+                </div>
+                <div class="faq-answer">
+                    Yes! We provide a comprehensive <a href="api-reference.html">REST API</a> for integrations with your CRM, email platform, social media tools, and more. Webhooks and Zapier support are also available.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <i class="fas fa-chevron-right"></i>
+                    <span>Is my data secure?</span>
+                </div>
+                <div class="faq-answer">
+                    Absolutely. We use enterprise-grade encryption (AES-256), comply with GDPR and CCPA regulations, and conduct regular security audits. Your data is never shared with third parties without your explicit consent.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <i class="fas fa-chevron-right"></i>
+                    <span>How do I track campaign performance?</span>
+                </div>
+                <div class="faq-answer">
+                    Visit your <a href="dashboard/campaigns.html">Campaign Dashboard</a> to view real-time analytics including impressions, clicks, conversions, CTR, and ROI. You can also export reports and set up custom alerts.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <i class="fas fa-chevron-right"></i>
+                    <span>What if I need help or have a problem?</span>
+                </div>
+                <div class="faq-answer">
+                    Our support team is here to help! Visit our <a href="support.html">Support Center</a>, check the <a href="documentation.html">documentation</a>, or <a href="contact.html">contact us</a> directly. Pro and Enterprise customers get priority support.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <i class="fas fa-chevron-right"></i>
+                    <span>Can I cancel my subscription anytime?</span>
+                </div>
+                <div class="faq-answer">
+                    Yes, you can cancel your subscription at any time from your account settings. No long-term contracts or cancellation fees. Your access continues until the end of your current billing period.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <i class="fas fa-chevron-right"></i>
+                    <span>Do you offer a free trial?</span>
+                </div>
+                <div class="faq-answer">
+                    Yes! We offer a 14-day free trial with full access to all features. No credit card required to start. <a href="dashboard/register.html">Sign up now</a> and experience the power of AI-driven marketing.
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-section">
+            <h2>Still Need Help?</h2>
+            <p>Can't find what you're looking for? Try these resources:</p>
+            <ul>
+                <li><a href="documentation.html">Complete Documentation</a> - In-depth guides and tutorials</li>
+                <li><a href="api-reference.html">API Reference</a> - Technical API documentation</li>
+                <li><a href="support.html">Support Center</a> - Get personalized help</li>
+                <li><a href="contact.html">Contact Us</a> - Reach our support team</li>
+            </ul>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 OmniMind24. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Simple search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question span').textContent.toLowerCase();
+                const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+                
+                if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = searchTerm === '' ? 'block' : 'none';
+                }
+            });
+        });
+
+        // Toggle FAQ answers
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', function() {
+                const answer = this.nextElementSibling;
+                const icon = this.querySelector('i');
+                
+                if (answer.style.display === 'none' || answer.style.display === '') {
+                    answer.style.display = 'block';
+                    icon.classList.remove('fa-chevron-right');
+                    icon.classList.add('fa-chevron-down');
+                } else {
+                    answer.style.display = 'none';
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-right');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
