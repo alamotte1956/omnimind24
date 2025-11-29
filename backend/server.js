@@ -35,6 +35,14 @@ try { app.use('/api/campaigns', require('./src/routes/campaigns')); console.log(
 
 try { app.use('/api', require('./src/routes/env-test')); console.log('Environment test route loaded successfully'); } catch (error) { console.error('Failed to load env-test route:', error.message); }
 
+
+try {
+  app.use('/api', require('./src/routes/env-test'));
+  console.log('Environment test route loaded successfully');
+} catch (error) {
+  console.error('Failed to load env-test route:', error.message);
+}
+
 console.log('All available routes loaded');
 
 app.use((req, res) => { res.status(404).json({ success: false, error: 'Route not found', path: req.path, method: req.method, version: '4.0.6' }); });
