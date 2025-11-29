@@ -1,0 +1,74 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>API Reference - OmniMind24</title> 
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
+    <style> 
+        body { font-family: 'Inter', sans-serif; background: #000; color: #fff; margin: 0; padding: 0; } 
+        nav { background: rgba(0,0,0,0.95); padding: 1rem 2rem; border-bottom: 2px solid #FFD700; position: fixed; width: 100 0; z-index: 1000; } 
+        .nav-container { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; } 
+        .logo { font-size: 1.8rem; font-weight: 800; color: #FFD700; text-decoration: none; } 
+        .nav-links { display: flex; gap: 2rem; list-style: none; } 
+        .nav-links a { color: #fff; text-decoration: none; font-weight: 500; transition: color 0.3s; } 
+        .nav-links a:hover { color: #FFD700; } 
+        .content { max-width: 1200px; margin: 120px auto 0; padding: 40px 2rem; } 
+        .content h1 { font-size: 3rem; margin-bottom: 2rem; color: #FFD700; } 
+        .content h2 { font-size: 2rem; margin-top: 3rem; margin-bottom: 1rem; color: #FFD700; } 
+        .endpoint { background: #1a1a1a; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border-left: 4px solid #FFD700; } 
+        .method { display: inline-block; padding: 0.3rem 0.8rem; background: #FFD700; color: #000; font-weight: 700; border-radius: 4px; margin-right: 1rem; } 
+        code { background: #2a2a2a; padding: 0.2rem 0.5rem; border-radius: 4px; color: #FFD700; } 
+        pre { background: #1a1a1a; padding: 1.5rem; border-radius: 8px; overflow-x: auto; } 
+        footer { background: #000; padding: 3rem 2rem; border-top: 2px solid #FFD700; text-align: center; color: #ccc; margin-top: 4rem; } 
+    </style> 
+</head> 
+<body> 
+    <nav> 
+        <div class="nav-container"> 
+            <a href="index.html" class="logo">OmniMind24</a> 
+            <ul class="nav-links"> 
+                <li><a href="index.html">Home</a></li> 
+                <li><a href="features.html">Features</a></li> 
+                <li><a href="pricing.html">Pricing</a></li> 
+                <li><a href="documentation.html">Docs</a></li> 
+                <li><a href="support.html">Support</a></li> 
+            </ul> 
+        </div> 
+    </nav> 
+    <div class="content"> 
+        <h1>API Reference</h1> 
+        <p>Complete REST API documentation for OmniMind24 platform.</p> 
+        <h2>Authentication</h2> 
+        <p>All API requests require authentication using Bearer tokens:</p> 
+        <pre>Authorization: Bearer YOUR_API_TOKEN</pre> 
+        <h2>Campaigns</h2> 
+        <div class="endpoint"> 
+            <span class="method">GET</span> 
+            <code>/api/campaigns</code> 
+            <p>Retrieve all campaigns for the authenticated user.</p> 
+        </div> 
+        <div class="endpoint"> 
+            <span class="method">POST</span> 
+            <code>/api/campaigns</code> 
+            <p>Create a new campaign with COSTAR framework data.</p> 
+        </div> 
+        <div class="endpoint"> 
+            <span class="method">GET</span> 
+            <code>/api/campaigns/:id</code> 
+            <p>Retrieve a specific campaign by ID.</p> 
+        </div> 
+        <h2>Content Generation</h2> 
+        <div class="endpoint"> 
+            <span class="method">POST</span> 
+            <code>/api/generate</code> 
+            <p>Generate AI-powered content using selected services.</p> 
+        </div> 
+        <h2>Rate Limits</h2> 
+        <p>API requests are limited based on your plan tier. See <a href="pricing.html" style="color: #FFD700;">Pricing</a> for details.</p> 
+    </div> 
+    <footer> 
+        <p>© 2024 OmniMind24. All rights reserved.</p> 
+    </footer> 
+</body> 
+</html> 
