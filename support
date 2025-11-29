@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support - OmniMind24</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --primary-gold: #FFD700;
+            --dark-gold: #B8860B;
+            --black: #000000;
+            --dark-gray: #1a1a1a;
+            --light-gray: #f5f5f5;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: var(--light-gray);
+        }
+        nav {
+            background: var(--black);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-gold);
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: var(--primary-gold);
+        }
+        main {
+            margin-top: 80px;
+            padding: 3rem 2rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: var(--black);
+            margin-bottom: 2rem;
+            border-bottom: 3px solid var(--primary-gold);
+            padding-bottom: 1rem;
+        }
+        .support-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .support-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .support-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(255,215,0,0.3);
+        }
+        .support-card i {
+            font-size: 3rem;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+        }
+        .support-card h3 {
+            color: var(--black);
+            margin-bottom: 1rem;
+        }
+        .support-card p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        .support-card a {
+            color: var(--dark-gold);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .support-card a:hover {
+            color: var(--primary-gold);
+        }
+        footer {
+            background: var(--black);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <div class="logo">OmniMind24</div>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="features.html">Features</a></li>
+                <li><a href="pricing.html">Pricing</a></li>
+                <li><a href="documentation.html">Docs</a></li>
+                <li><a href="support.html">Support</a></li>
+                <li><a href="help-center.html">Help</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <h1><i class="fas fa-headset"></i> Support Center</h1>
+        
+        <div class="support-grid">
+            <div class="support-card">
+                <i class="fas fa-book"></i>
+                <h3>Documentation</h3>
+                <p>Comprehensive guides and API documentation to help you get started and build amazing campaigns.</p>
+                <a href="documentation.html">View Documentation →</a>
+            </div>
+
+            <div class="support-card">
+                <i class="fas fa-code"></i>
+                <h3>API Reference</h3>
+                <p>Detailed API endpoints, parameters, and integration examples for developers.</p>
+                <a href="api-reference.html">API Reference →</a>
+            </div>
+
+            <div class="support-card">
+                <i class="fas fa-question-circle"></i>
+                <h3>Help Center</h3>
+                <p>Find answers to frequently asked questions and troubleshooting tips.</p>
+                <a href="help-center.html">Help Center →</a>
+            </div>
+
+            <div class="support-card">
+                <i class="fas fa-envelope"></i>
+                <h3>Contact Us</h3>
+                <p>Get in touch with our support team for personalized assistance.</p>
+                <a href="contact.html">Contact Support →</a>
+            </div>
+
+            <div class="support-card">
+                <i class="fas fa-comments"></i>
+                <h3>Community Forum</h3>
+                <p>Connect with other users, share tips, and learn best practices.</p>
+                <a href="#forum">Visit Forum →</a>
+            </div>
+
+            <div class="support-card">
+                <i class="fas fa-video"></i>
+                <h3>Video Tutorials</h3>
+                <p>Watch step-by-step video guides to master OmniMind24 features.</p>
+                <a href="#tutorials">Watch Tutorials →</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 OmniMind24. All rights reserved.</p>
+    </footer>
+</body>
+</html>
