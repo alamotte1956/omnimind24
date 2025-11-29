@@ -6,6 +6,12 @@ const sequelize = require('./src/config/database');
 const logger = require('./src/config/logger');
 const errorHandler = require('./src/middleware/errorHandler');
 
+// ============================================
+// V4.0.1 - NUCLEAR DEBUG VERSION
+// ============================================
+console.log('🔥🔥🔥 SERVER.JS LOADING - V4.0.1 🔥🔥🔥');
+console.log(`[LOAD TIME] ${new Date().toISOString()}`);
+
 const app = express();
 
 // Middleware
@@ -29,31 +35,56 @@ app.use((req, res, next) => {
   next();
 });
 
-// Health check endpoints (both /health and /api/health)
+// Health check endpoints (both /health and /api/health) - V4.0.1
 const healthCheck = (req, res) => {
   res.json({
     status: 'ok',
-    message: 'OMNI-MIND API by A.I. Help Pros is running',
+    message: 'OMNI-MIND API by A.I. Help Pros is running - V4.0.1',
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || 'production',
-    version: '1.0.7',
+    version: '4.0.1',
     uptime: process.uptime()
   });
 };
+
+// Root route for testing - V4.0.1
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: 'OMNI-MIND API Root - V4.0.1',
+    version: '4.0.1',
+    endpoints: ['/health', '/api/health', '/api/campaigns', '/api/auth', '/api/env-test'],
+    server: 'Railway',
+    timestamp: new Date().toISOString()
+  });
+});
 
 app.get('/health', healthCheck);
 app.get('/api/health', healthCheck);
 
 // API Routes
+console.log('🔍 Loading API routes...');
 app.use('/api/auth', require('./src/routes/auth'));
+console.log('✅ Auth routes loaded');
 app.use('/api/campaigns', require('./src/routes/campaigns'));
+console.log('✅ Campaigns routes loaded');
+app.use('/api/contact', require('./src/routes/contact.routes'));
+console.log('✅ Contact routes loaded');
+app.use('/api/services', require('./src/routes/services'));
+console.log('✅ Services routes loaded');
+app.use('/api', require('./src/routes/s3-test'));
+console.log('✅ S3-test routes loaded');
+app.use('/api', require('./src/routes/env-test'));
+console.log('✅ ENV-test routes loaded');
 
-// 404 handler
+// 404 handler - V4.0.1 (MUST BE AFTER ALL ROUTES)
 app.use((req, res) => {
+  console.log(`❌ 404 HANDLER HIT - V4.0.1: ${req.method} ${req.path}`);
   res.status(404).json({
     success: false,
     error: 'Route not found',
-    path: req.path
+    path: req.path,
+    version: '4.0.1'
   });
 });
 
@@ -65,48 +96,27 @@ const PORT = process.env.PORT || 5000;
 
 async function startServer() {
   try {
-    console.log('🔍 DEBUG: Starting server initialization...');
-    
     // Test database connection
     await sequelize.authenticate();
     logger.info('✅ Database connection established');
-    console.log('🔍 DEBUG: Database authenticated successfully');
 
-    // Sync database models - FORCE UPDATE FOR SCHEMA CHANGES
-    console.log('🔍 DEBUG: About to sync database models...');
+    // Sync database models
     await sequelize.sync({ alter: true });
     logger.info('✅ Database models synced');
-    console.log('🔍 DEBUG: Database models synced successfully');
-
-    // Start background worker - DISABLED (requires Redis)
-    // require('./src/workers/campaign.worker');
-    // logger.info('✅ Background worker started');
-    console.log('🔍 DEBUG: Worker skipped (disabled)');
 
     // Start Express server
-    console.log('🔍 DEBUG: About to start Express server on port', PORT);
-    const server = app.listen(PORT, '0.0.0.0', () => {
+    app.listen(PORT, () => {
       logger.info('═══════════════════════════════════════════════════');
       logger.info(`🚀 OMNI-MIND API Server Started`);
       logger.info(`📍 Port: ${PORT}`);
       logger.info(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
       logger.info(`🔗 Health Check: http://localhost:${PORT}/health`);
+      logger.info(`🧪 Env Test: http://localhost:${PORT}/api/env-test`);
       logger.info(`🏢 Powered by: A.I. Help Pros`);
       logger.info('═══════════════════════════════════════════════════');
-      console.log('🔍 DEBUG: Express server is now listening!');
     });
-
-    server.on('error', (error) => {
-      console.error('🔍 DEBUG: Server error:', error);
-      logger.error('Server error:', error);
-      process.exit(1);
-    });
-
-    console.log('🔍 DEBUG: app.listen() called successfully');
 
   } catch (error) {
-    console.error('🔍 DEBUG: ERROR IN STARTUP:', error);
-    console.error('🔍 DEBUG: Error stack:', error.stack);
     logger.error('❌ Failed to start server:', error);
     process.exit(1);
   }
@@ -125,21 +135,6 @@ process.on('SIGINT', async () => {
   process.exit(0);
 });
 
-// Handle unhandled promise rejections
-process.on('unhandledRejection', (reason, promise) => {
-  console.error('🔍 DEBUG: Unhandled Rejection:', reason);
-  logger.error('Unhandled Rejection at:', promise, 'reason:', reason);
-});
-
-// Handle uncaught exceptions
-process.on('uncaughtException', (error) => {
-  console.error('🔍 DEBUG: Uncaught Exception:', error);
-  logger.error('Uncaught Exception:', error);
-  process.exit(1);
-});
-
 startServer();
 
 module.exports = app;
-
-app.use('/api', require('./src/routes/env-test'));  // Environment test endpoint 
